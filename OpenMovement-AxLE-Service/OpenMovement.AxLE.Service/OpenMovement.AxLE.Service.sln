@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Service", "OpenMovement.AxLE.Service.csproj", "{A1F01C37-EBAA-4BE3-801B-9A34DE37731C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1F01C37-EBAA-4BE3-801B-9A34DE37731C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F01C37-EBAA-4BE3-801B-9A34DE37731C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F01C37-EBAA-4BE3-801B-9A34DE37731C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F01C37-EBAA-4BE3-801B-9A34DE37731C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

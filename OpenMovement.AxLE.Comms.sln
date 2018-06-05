@@ -1,0 +1,37 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms", "OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj", "{5E142D51-AC8C-4497-92D5-E8A67389B9ED}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenMovement.AxLE.Comms.Bluetooth.Mobile", "OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.shproj", "{4888FA23-083C-45B0-8970-89BB7A4E0916}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android", "OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android\OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android.csproj", "{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS", "OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS\OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS.csproj", "{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Windows", "OpenMovement.AxLE.Comms.Bluetooth.Windows\OpenMovement.AxLE.Comms.Bluetooth.Windows.csproj", "{46560F2F-1BB7-464F-80DB-1765015A1795}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E142D51-AC8C-4497-92D5-E8A67389B9ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E142D51-AC8C-4497-92D5-E8A67389B9ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E142D51-AC8C-4497-92D5-E8A67389B9ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E142D51-AC8C-4497-92D5-E8A67389B9ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46560F2F-1BB7-464F-80DB-1765015A1795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46560F2F-1BB7-464F-80DB-1765015A1795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46560F2F-1BB7-464F-80DB-1765015A1795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46560F2F-1BB7-464F-80DB-1765015A1795}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

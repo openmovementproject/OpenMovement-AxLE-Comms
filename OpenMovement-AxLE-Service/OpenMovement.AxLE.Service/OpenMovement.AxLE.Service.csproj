@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Gerard Wilkinson</Authors>
+    <PackageLicenseUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Service/blob/master/LICENSE</PackageLicenseUrl>
+    <Owners>Open Lab, Newcastle University</Owners>
+    <PackageProjectUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Service</PackageProjectUrl>
+    <Summary>OpenMovement AxLE Service Layer, containing repository interfaces and AxLE models.</Summary>
+    <Title>OpenMovement AxLE Service layer</Title>
+    <Description>OpenMovement AxLE Service Layer, containing repository interfaces and AxLE models.</Description>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>OpenMovement.AxLE.Service</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Models\" />
+    <Folder Include="Values\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
+  </ItemGroup>
+</Project>
