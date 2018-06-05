@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Blu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Windows", "OpenMovement.AxLE.Comms.Bluetooth.Windows\OpenMovement.AxLE.Comms.Bluetooth.Windows.csproj", "{46560F2F-1BB7-464F-80DB-1765015A1795}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Service", "OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj", "{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,5 +35,9 @@ Global
 		{46560F2F-1BB7-464F-80DB-1765015A1795}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46560F2F-1BB7-464F-80DB-1765015A1795}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46560F2F-1BB7-464F-80DB-1765015A1795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

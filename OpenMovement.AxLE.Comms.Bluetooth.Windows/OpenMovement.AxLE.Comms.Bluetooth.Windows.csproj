@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj" />
+    <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

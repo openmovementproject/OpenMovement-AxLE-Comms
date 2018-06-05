@@ -22,9 +22,9 @@
     <Folder Include="Values\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
+    <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj" />
   </ItemGroup>
 </Project>

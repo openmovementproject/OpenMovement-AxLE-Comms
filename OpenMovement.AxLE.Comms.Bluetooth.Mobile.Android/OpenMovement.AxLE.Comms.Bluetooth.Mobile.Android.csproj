@@ -70,6 +70,10 @@
       <Project>{5E142D51-AC8C-4497-92D5-E8A67389B9ED}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
+      <Project>{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}</Project>
+      <Name>OpenMovement.AxLE.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems" Label="Shared" Condition="Exists('..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
