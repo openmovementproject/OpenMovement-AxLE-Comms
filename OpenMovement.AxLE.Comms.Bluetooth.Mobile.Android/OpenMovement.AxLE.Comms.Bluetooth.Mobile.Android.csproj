@@ -51,10 +51,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="Plugin.BLE.Abstractions">
-      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.BLE">
-      <HintPath>..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
+      <HintPath>..\..\packages\Plugin.BLE.1.3.0\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,11 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
-      <Project>{5E142D51-AC8C-4497-92D5-E8A67389B9ED}</Project>
+      <Project>{90E52C81-DF2E-4689-96EF-1B0DF414F8A2}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
-      <Project>{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}</Project>
+      <Project>{5223C73C-9386-48D1-8C79-F79839A96C8D}</Project>
       <Name>OpenMovement.AxLE.Service</Name>
     </ProjectReference>
   </ItemGroup>
