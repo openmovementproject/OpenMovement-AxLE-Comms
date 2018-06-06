@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Values;
@@ -10,16 +9,18 @@ namespace OpenMovement.AxLE.Comms.Commands
     public class WriteCurrentBlock : AxLECommand<BlockDetails>
     {
         private readonly UInt16 _blockNo;
+        private readonly UInt16 _index;
         private string _match;
 
         public WriteCurrentBlock(UInt16 blockNo)
         {
             _blockNo = blockNo;
+            _index = (UInt16) (_blockNo % 128); // TODO: Make passed config from device
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"W{_blockNo.ToString("X")}");
+            await Device.TxUart($"W{_index.ToString("X")}");
         }
 
         protected override bool LookForEnd()
