@@ -10,6 +10,7 @@ using System.Threading;
 using OpenMovement.AxLE.Comms.Interfaces;
 using OpenMovement.AxLE.Comms.Bluetooth.Interfaces;
 using OpenMovement.AxLE.Comms.Bluetooth.Values;
+using System.Collections.Concurrent;
 
 namespace OpenMovement.AxLE.Comms
 {
@@ -26,7 +27,7 @@ namespace OpenMovement.AxLE.Comms
         private readonly IBluetoothManager _ble;
 
         private bool _interrogating;
-        private readonly Queue<IDevice> _interrogateQueue;
+        private ConcurrentQueue<IDevice> _interrogateQueue;
         private readonly System.Timers.Timer _interrogateTimer;
 
         private readonly System.Timers.Timer _nearbyTimer;
@@ -82,7 +83,7 @@ namespace OpenMovement.AxLE.Comms
 
             _interrogateTimer.Elapsed += ProcessInterrogationStack;
 
-            _interrogateQueue = new Queue<IDevice>();
+            _interrogateQueue = new ConcurrentQueue<IDevice>();
 
             RssiFilter = 80;
         }
@@ -103,7 +104,7 @@ namespace OpenMovement.AxLE.Comms
 		{
 			await _ble.StopScan();
             _interrogateTimer.Stop();
-            _interrogateQueue.Clear();
+            _interrogateQueue = new ConcurrentQueue<IDevice>();
             _nearbyTimer.Stop();
             _lastSeen.Clear();
 		}
@@ -230,14 +231,16 @@ namespace OpenMovement.AxLE.Comms
 
                 while (_interrogateQueue.Any())
                 {
-                    var device = _interrogateQueue.Dequeue();
-                    var serial = await InterrogateForSerial(device);
-
-                    if (!string.IsNullOrEmpty(serial))
+                    if (_interrogateQueue.TryDequeue(out IDevice device))
                     {
-                        _devices[serial] = device;
-                        _lastSeen[device.Id] = DateTime.Now;
-                        DeviceFound?.Invoke(this, serial);
+                        var serial = await InterrogateForSerial(device);
+
+                        if (!string.IsNullOrEmpty(serial))
+                        {
+                            _devices[serial] = device;
+                            _lastSeen[device.Id] = DateTime.Now;
+                            DeviceFound?.Invoke(this, serial);
+                        }
                     }
                 }
 

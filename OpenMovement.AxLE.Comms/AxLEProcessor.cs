@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Timers;
 using OpenMovement.AxLE.Comms.Interfaces;
 using OpenMovement.AxLE.Comms.Exceptions;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Commands;
+using System.Collections.Concurrent;
 
 namespace OpenMovement.AxLE.Comms
 {
@@ -14,7 +14,7 @@ namespace OpenMovement.AxLE.Comms
         private const double CommandTimeout = 5000;
 
         private readonly IAxLEDevice _device;
-        private readonly Queue<IAxLECommand> _commandList;
+        private readonly ConcurrentQueue<IAxLECommand> _commandList;
 
         private Timer Timer { get; set; }
         private bool Processing { get; set; }
@@ -24,7 +24,7 @@ namespace OpenMovement.AxLE.Comms
             _device = device;
 
             Processing = false;
-            _commandList = new Queue<IAxLECommand>();
+            _commandList = new ConcurrentQueue<IAxLECommand>();
         }
 
         public void StartProcessor()
@@ -55,20 +55,24 @@ namespace OpenMovement.AxLE.Comms
         {
             if (!Processing)
             {
+                Processing = true;
+
                 while (_commandList.Count > 0)
                 {
-                    Processing = true;
-                    var command = _commandList.Dequeue();
-                    command.Device = _device;
-                    try
+                    if (_commandList.TryDequeue(out IAxLECommand command))
                     {
-                        await command.Execute();
-                    }
-                    catch (CommandFailedException e)
-                    {
-                        Console.WriteLine($"COMMAND FAILED: {e}");
+                        command.Device = _device;
+                        try
+                        {
+                            await command.Execute();
+                        }
+                        catch (CommandFailedException e)
+                        {
+                            Console.WriteLine($"COMMAND FAILED: {e}");
+                        }
                     }
                 }
+
                 Processing = false;
             }
         }
