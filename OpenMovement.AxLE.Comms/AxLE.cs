@@ -43,8 +43,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// BLE device connection interval. Fires off command to device.
         /// </summary>
-        private ulong _connectionInterval;
-        public ulong ConnectionInterval
+        private UInt16 _connectionInterval;
+        public UInt16 ConnectionInterval
         {
             get => _connectionInterval;
             set
@@ -74,8 +74,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set cueing period in seconds. Fires off command to device.
         /// </summary>
-        private ulong _cueingPeriod;
-        public ulong CueingPeriod
+        private UInt16 _cueingPeriod;
+        public UInt16 CueingPeriod
         {
             get => _cueingPeriod;
             set
@@ -88,8 +88,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set Epoch period in seconds. Fires off command to device.
         /// </summary>
-        private ulong _epochPeriod;
-        public ulong EpochPeriod
+        private UInt16 _epochPeriod;
+        public UInt16 EpochPeriod
         {
             get => _epochPeriod;
             set
@@ -102,8 +102,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the goal period offset in seconds. Fires off command to device.
         /// </summary>
-        private ulong _goalPeriodOffset;
-        public ulong GoalPeriodOffset
+        private UInt16 _goalPeriodOffset;
+        public UInt16 GoalPeriodOffset
         {
             get => _goalPeriodOffset;
             set
@@ -116,8 +116,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the goal period in seconds. Fires off command to device.
         /// </summary>
-        private ulong _goalPeriod;
-        public ulong GoalPeriod
+        private UInt16 _goalPeriod;
+        public UInt16 GoalPeriod
         {
             get => _goalPeriod;
             set
@@ -130,8 +130,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the step goal threshold (vibrates when exceeded in 24hr period). Fires off command to device.
         /// </summary>
-        private ulong _goalThreshold;
-        public ulong GoalThreshold
+        private UInt16 _goalThreshold;
+        public UInt16 GoalThreshold
         {
             get => _goalThreshold;
             set

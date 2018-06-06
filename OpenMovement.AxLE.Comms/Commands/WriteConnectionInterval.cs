@@ -1,19 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteConnectionInterval : AxLECommandNoResponse
     {
-        private readonly ulong _interval;
+        private readonly UInt16 _interval;
 
-        public WriteConnectionInterval(ulong interval)
+        public WriteConnectionInterval(UInt16 interval)
         {
             _interval = interval;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"V{_interval.ToString("X")}");
+            await Device.TxUart($"V{AxLEHelper.ShortToHexWordsLE(_interval)}");
         }
     }
 }

@@ -1,21 +1,20 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
     public class SycroniseEpochTiming : AxLECommandNoResponse
     {
-        private readonly ulong _offset;
+        private readonly UInt16 _offset;
 
-        public SycroniseEpochTiming(ulong offset)
+        public SycroniseEpochTiming(UInt16 offset)
         {
             _offset = offset;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"S{_offset.ToString("X")}");
+            await Device.TxUart($"S{AxLEHelper.ShortToHexWordsLE(_offset)}");
         }
     }
 }

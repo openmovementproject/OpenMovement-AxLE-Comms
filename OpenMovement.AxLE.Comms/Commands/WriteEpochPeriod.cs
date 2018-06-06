@@ -1,19 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteEpochPeriod : AxLECommandNoResponse
     {
-        private readonly ulong _epochPeriod;
+        private readonly UInt16 _epochPeriod;
 
-        public WriteEpochPeriod(ulong epochPeriod)
+        public WriteEpochPeriod(UInt16 epochPeriod)
         {
             _epochPeriod = epochPeriod;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"N{_epochPeriod.ToString("X")}");
+            await Device.TxUart($"N{AxLEHelper.ShortToHexWordsLE(_epochPeriod)}");
         }
     }
 }

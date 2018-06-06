@@ -3,7 +3,7 @@ using OpenMovement.AxLE.Comms.Exceptions;
 using OpenMovement.AxLE.Comms.Interfaces;
 using OpenMovement.AxLE.Comms.Values;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace OpenMovement.AxLE.Comms
 
         private readonly IDevice _device;
         private readonly System.Timers.Timer _rxTimer;
-        private readonly Queue<Task> _rxTasks;
+        private readonly ConcurrentQueue<Task> _rxTasks;
 
         public string DeviceId { get; }
         public bool Ready { get; private set; }
@@ -46,7 +46,7 @@ namespace OpenMovement.AxLE.Comms
             };
 
             RxProcessing = false;
-            _rxTasks = new Queue<Task>();
+            _rxTasks = new ConcurrentQueue<Task>();
 
             _rxTimer.Start();
         }
@@ -89,13 +89,17 @@ namespace OpenMovement.AxLE.Comms
         {
             if (!RxProcessing)
             {
+                RxProcessing = true;
+
                 while (_rxTasks.Count > 0)
                 {
-                    RxProcessing = true;
-                    var task = _rxTasks.Dequeue();
-                    task.Start();
-                    await task;
+                    if (_rxTasks.TryDequeue(out Task task))
+                    {
+                        task.Start();
+                        await task;
+                    }
                 }
+
                 RxProcessing = false;
             }
         }

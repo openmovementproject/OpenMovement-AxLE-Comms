@@ -5,6 +5,6 @@ namespace OpenMovement.AxLE.Comms.Values
     {
         public bool Cueing { get; set; }
 
-        public ulong Period { get; set; }
+        public UInt16 Period { get; set; }
     }
 }

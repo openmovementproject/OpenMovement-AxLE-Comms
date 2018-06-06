@@ -1,19 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteGoalThreshold : AxLECommandNoResponse
     {
-        private readonly ulong _threshold;
+        private readonly UInt16 _threshold;
 
-        public WriteGoalThreshold(ulong threshold)
+        public WriteGoalThreshold(UInt16 threshold)
         {
             _threshold = threshold;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"GG{_threshold.ToString("X")}");
+            await Device.TxUart($"GG{AxLEHelper.ShortToHexWordsLE(_threshold)}");
         }
     }
 }

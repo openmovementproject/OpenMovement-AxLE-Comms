@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
-    public class ReadEpochPeriod : AxLECommand<ulong>
+    public class ReadEpochPeriod : AxLECommand<UInt16>
     {
         private string _match;
 
@@ -32,11 +33,11 @@ namespace OpenMovement.AxLE.Comms.Commands
             return false;
         }
 
-        protected override ulong ProcessResult()
+        protected override UInt16 ProcessResult()
         {
             var values = _match.Split('N', ':', '\r', '\n').Where(v => !string.IsNullOrEmpty(v)).ToArray();
 
-            return ulong.Parse(values[0]);
+            return UInt16.Parse(values[0]);
         }
     }
 }

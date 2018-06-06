@@ -20,7 +20,7 @@ namespace OpenMovement.AxLE.Comms.Commands
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"W{_index.ToString("X")}");
+            await Device.TxUart($"W{AxLEHelper.ShortToHexWordsLE(_index)}");
         }
 
         protected override bool LookForEnd()

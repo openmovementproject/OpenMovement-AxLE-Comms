@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Values;
+using System;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
@@ -39,8 +40,8 @@ namespace OpenMovement.AxLE.Comms.Commands
 
             return new CueingConfig
             {
-                Period = ulong.Parse(values[0]),
-                Cueing = int.Parse(values[1]) > 0
+                Period = UInt16.Parse(values[0]),
+                Cueing = UInt16.Parse(values[1]) > 0
             };
         }
     }

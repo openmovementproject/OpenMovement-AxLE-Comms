@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -38,9 +39,9 @@ namespace OpenMovement.AxLE.Comms.Commands
 
             return new GoalConfig
             {
-                GoalPeriodOffset = ulong.Parse(values[0]),
-                GoalPeriod = ulong.Parse(values[1]),
-                GoalThreshold = ulong.Parse(values[2])
+                GoalPeriodOffset = UInt16.Parse(values[0]),
+                GoalPeriod = UInt16.Parse(values[1]),
+                GoalThreshold = UInt16.Parse(values[2])
             };
         }
     }
