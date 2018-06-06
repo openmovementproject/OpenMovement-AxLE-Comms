@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Values;
@@ -19,7 +18,7 @@ namespace OpenMovement.AxLE.Comms.Commands
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"W{_blockNo.ToString("X")}");
+            await Device.TxUart($"W{AxLEHelper.ShortToHexWordsLE(_blockNo)}");
         }
 
         protected override bool LookForEnd()

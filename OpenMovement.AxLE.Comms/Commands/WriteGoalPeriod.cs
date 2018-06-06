@@ -1,19 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteGoalPeriod : AxLECommandNoResponse
     {
-        private readonly ulong _period;
+        private readonly UInt16 _period;
 
-        public WriteGoalPeriod(ulong period)
+        public WriteGoalPeriod(UInt16 period)
         {
             _period = period;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"GP{_period.ToString("X")}");
+            await Device.TxUart($"GP{AxLEHelper.ShortToHexWordsLE(_period)}");
         }
     }
 }
