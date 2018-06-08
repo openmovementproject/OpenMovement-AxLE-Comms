@@ -15,7 +15,7 @@ namespace OpenMovement.AxLE.Comms.Commands
         public WriteCurrentBlock(UInt16 blockNo)
         {
             _blockNo = blockNo;
-            _index = (UInt16) (_blockNo % 128); // TODO: Make passed config from device
+            _index = (UInt16) (_blockNo % AxLEConfig.BlockCount); // TODO: Make passed config from device
         }
 
         public override async Task SendCommand()

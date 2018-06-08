@@ -1,7 +1,8 @@
 ﻿using System;
+
 namespace OpenMovement.AxLE.Comms.Values
 {
-    public class CueingConfig
+    public struct CueingConfig
     {
         public bool Cueing { get; set; }
 

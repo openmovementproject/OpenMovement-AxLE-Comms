@@ -14,6 +14,9 @@
     <Title>OpenMovement AxLE Comms Layer.</Title>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;DEBUG_COMMS</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Bluetooth\" />
     <Folder Include="Commands\" />

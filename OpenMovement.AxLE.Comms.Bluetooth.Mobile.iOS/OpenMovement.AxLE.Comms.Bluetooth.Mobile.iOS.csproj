@@ -25,7 +25,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>__IOS__;__MOBILE__;__UNIFIED__;DEBUG;DEBUG_COMMS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -71,11 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
-      <Project>{90E52C81-DF2E-4689-96EF-1B0DF414F8A2}</Project>
+      <Project>{5E142D51-AC8C-4497-92D5-E8A67389B9ED}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
-      <Project>{5223C73C-9386-48D1-8C79-F79839A96C8D}</Project>
+      <Project>{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}</Project>
       <Name>OpenMovement.AxLE.Service</Name>
     </ProjectReference>
   </ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace OpenMovement.AxLE.Comms.Values
 {
-    public class GoalConfig
+    public struct GoalConfig
     {
         public UInt16 GoalPeriod { get; set; }
 

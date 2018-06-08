@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace OpenMovement.AxLE.Comms.Values
 {
     public struct AccBlock

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenMovement.AxLE.Comms.Values
+namespace OpenMovement.AxLE.Comms
 {
     public struct AxLEUuid
     {

@@ -59,8 +59,8 @@ namespace OpenMovement.AxLE.Comms.Commands
         {
             var data = BlockBytes;
 
-            var metaData = new byte[20];
-            Array.Copy(data, 10, metaData, 0, metaData.Length);
+            var metaData = new byte[18];
+            Array.Copy(data, 12, metaData, 0, metaData.Length);
 
             var block = new EpochBlock
             {
@@ -68,7 +68,8 @@ namespace OpenMovement.AxLE.Comms.Commands
                 {
                     BlockNumber = BitConverter.ToUInt16(data, 0),
                     DataLength = BitConverter.ToUInt16(data, 2),
-                    DeviceTimestamp = BitConverter.ToUInt32(data, 4)
+                    DeviceTimestamp = BitConverter.ToUInt32(data, 4),
+                    EpochPeriod = BitConverter.ToUInt16(data, 10)
                 },
                 BlockFormat = BitConverter.ToUInt16(data, 8),
                 MetaData = metaData,
