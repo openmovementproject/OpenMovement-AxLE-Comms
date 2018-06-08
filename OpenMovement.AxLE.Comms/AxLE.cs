@@ -241,6 +241,7 @@ namespace OpenMovement.AxLE.Comms
         /// Syncs the Epoch data from the device, operation may take some time. This overload reads to the active block.
         /// </summary>
         /// <exception cref="InvalidBlockRangeException">Thrown when a the requested range exceeds the device storage. You must use the other overload to read.</exception>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="lastRtc"/> does not match the band data.</exception>
         /// <exception cref="BlockSyncFailedException">Thrown when a block in the sync operation fails CRC check twice.</exception>
         /// <returns>The synced Epoch data.</returns>
         /// <param name="lastBlock">Last block read from device, if first run read ActiveBlock from <see cref="ReadBlockDetails"/>.</param>
@@ -256,13 +257,14 @@ namespace OpenMovement.AxLE.Comms
         /// Syncs the Epoch data from the device, operation may take some time.
         /// </summary>
         /// <exception cref="InvalidBlockRangeException">Thrown when a the requested range exceeds the device storage.</exception>
+        /// <exception cref="ArgumentException">Thrown when the <paramref name="lastRtc"/> does not match the band data.</exception>
         /// <exception cref="BlockSyncFailedException">Thrown when a block in the sync operation fails CRC check twice.</exception>
         /// <returns>The synced Epoch data.</returns>
         /// <param name="readFrom">Block to read from, if first run read ActiveBlock from <see cref="ReadBlockDetails"/>.</param>
         /// <param name="readTo">Block number to read to, usually ActiveBlock.</param>
-        /// <param name="lastRtc">Device clock at last sync.</param>
-        /// <param name="lastSync">Global time at last sync.</param>
-        public async Task<EpochBlock[]> SyncEpochData(UInt16 readFrom, UInt16 readTo, UInt32? startRtc = null, DateTimeOffset? lastSync = null)
+        /// <param name="startRtc">Device clock at beginning of block read range.</param>
+        /// <param name="startTime">Global time at beginning of block read range.</param>
+        public async Task<EpochBlock[]> SyncEpochData(UInt16 readFrom, UInt16 readTo, UInt32? startRtc = null, DateTimeOffset? startTime = null)
         {
             if (((UInt16)(readTo - readFrom)) > AxLEConfig.BlockCount)
                 throw new InvalidBlockRangeException(readFrom, readTo);
@@ -303,9 +305,9 @@ namespace OpenMovement.AxLE.Comms
 
             await _processor.AddCommand(new LowPowerMode());
 
-            CalcualateTimestamps(blocks, startRtc, lastSync);
+            await ReadDeviceTime();
 
-            return blocks.ToArray();
+            return CalcualateTimestamps(blocks.ToArray(), startRtc, startTime, DeviceTime, DateTime.UtcNow);
         }
 
         /// <summary>
@@ -367,7 +369,7 @@ namespace OpenMovement.AxLE.Comms
             return total == 0;
         }
 
-        private EpochBlock[] CalcualateTimestamps(EpochBlock[] blocks, UInt32? lastRtc, DateTimeOffset lastSync, UInt32 currentRtc, DateTimeOffset currentTime)
+        private EpochBlock[] CalcualateTimestamps(EpochBlock[] blocks, UInt32? lastRtc, DateTimeOffset? lastSync, UInt32 currentRtc, DateTimeOffset currentTime)
         {
             var sets = new List<EpochBlock[]>();
             var currentSet = new List<EpochBlock>();
@@ -391,33 +393,32 @@ namespace OpenMovement.AxLE.Comms
                 }
             }
 
-            if (sets.Count == 1)
+            if (sets.Count < 1)
+                return new EpochBlock[0];
+
+            if (sets.Count == 1 || !lastRtc.HasValue || !lastSync.HasValue)
             {
                 return CalculateTimestampsForSet(sets.First(), currentRtc, currentTime);
             }
-            else if (sets.Count > 1)
+
+            var firstBlock = blocks.First();
+            if (lastRtc.HasValue &&
+                Math.Abs(firstBlock.BlockInfo.DeviceTimestamp - lastRtc.Value) < firstBlock.BlockInfo.EpochPeriod * AxLEConfig.BlockTimestampOutOfRangeThresholdFactor)
             {
-                var firstBlock = blocks.First();
-                if (lastRtc.HasValue &&
-                    Math.Abs(firstBlock.BlockInfo.DeviceTimestamp - lastRtc.Value) < firstBlock.BlockInfo.EpochPeriod * AxLEConfig.BlockTimestampOutOfRangeThresholdFactor)
-                {
-                    throw new ArgumentException("LastRTC did not match band data. If the start timestamp is unknown do not pass this parameter.");
-                }
-
-                var endSet = sets.First();
-                var startSet = sets.Last();
-
-                var offsetRtc = startSet.Last().BlockInfo.DeviceTimestamp;
-                var offsetTime = lastSync.AddSeconds(offsetRtc - startSet.First().BlockInfo.DeviceTimestamp);
-
-                var recoveredBlocks = new List<EpochBlock>();
-                recoveredBlocks.AddRange(CalculateTimestampsForSet(startSet, offsetRtc, offsetTime));
-                recoveredBlocks.AddRange(CalculateTimestampsForSet(endSet, currentRtc, currentTime));
-
-                return recoveredBlocks.ToArray();
+                throw new ArgumentException("LastRTC did not match band data. If the start timestamp is unknown do not pass this parameter.");
             }
-            
-            return new EpochBlock[0];
+
+            var endSet = sets.First();
+            var startSet = sets.Last();
+
+            var offsetRtc = startSet.Last().BlockInfo.DeviceTimestamp;
+            var offsetTime = lastSync.Value.AddSeconds(offsetRtc - startSet.First().BlockInfo.DeviceTimestamp);
+
+            var recoveredBlocks = new List<EpochBlock>();
+            recoveredBlocks.AddRange(CalculateTimestampsForSet(startSet, offsetRtc, offsetTime));
+            recoveredBlocks.AddRange(CalculateTimestampsForSet(endSet, currentRtc, currentTime));
+
+            return recoveredBlocks.ToArray();
         }
 
         private EpochBlock[] CalculateTimestampsForSet(EpochBlock[] blocks, UInt32 offsetRtc, DateTimeOffset offsetTime)
