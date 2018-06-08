@@ -103,8 +103,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the goal period offset in seconds. Fires off command to device.
         /// </summary>
-        private UInt16 _goalPeriodOffset;
-        public UInt16 GoalPeriodOffset
+        private UInt32 _goalPeriodOffset;
+        public UInt32 GoalPeriodOffset
         {
             get => _goalPeriodOffset;
             set
@@ -117,8 +117,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the goal period in seconds. Fires off command to device.
         /// </summary>
-        private UInt16 _goalPeriod;
-        public UInt16 GoalPeriod
+        private UInt32 _goalPeriod;
+        public UInt32 GoalPeriod
         {
             get => _goalPeriod;
             set

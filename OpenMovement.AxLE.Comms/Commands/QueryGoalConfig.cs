@@ -36,11 +36,11 @@ namespace OpenMovement.AxLE.Comms.Commands
         protected override GoalConfig ProcessResult()
         {
             var values = _match.Split('O', 'P', 'G', ':', '\r', '\n').Where(v => !string.IsNullOrEmpty(v)).ToArray();
-
+            
             return new GoalConfig
             {
-                GoalPeriodOffset = UInt16.Parse(values[0]),
-                GoalPeriod = UInt16.Parse(values[1]),
+                GoalPeriodOffset = UInt32.Parse(values[0]),
+                GoalPeriod = UInt32.Parse(values[1]),
                 GoalThreshold = UInt16.Parse(values[2])
             };
         }
