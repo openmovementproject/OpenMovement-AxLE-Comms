@@ -371,6 +371,9 @@ namespace OpenMovement.AxLE.Comms
 
         private EpochBlock[] CalcualateTimestamps(EpochBlock[] blocks, UInt32? lastRtc, DateTimeOffset? lastSync, UInt32 currentRtc, DateTimeOffset currentTime)
         {
+            if (blocks.Length < 2)
+                return CalculateTimestampsForSet(blocks, currentRtc, currentTime);
+            
             var sets = new List<EpochBlock[]>();
             var currentSet = new List<EpochBlock>();
             for (var i = blocks.Length - 2; i >= 0; i--)
@@ -393,8 +396,9 @@ namespace OpenMovement.AxLE.Comms
                 }
             }
 
-            if (sets.Count < 1)
-                return new EpochBlock[0];
+            currentSet.Add(blocks[0]);
+            currentSet.Reverse();
+            sets.Add(currentSet.ToArray());
 
             if (sets.Count == 1 || !lastRtc.HasValue || !lastSync.HasValue)
             {
