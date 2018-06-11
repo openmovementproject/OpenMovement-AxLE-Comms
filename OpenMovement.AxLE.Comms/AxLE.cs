@@ -1,12 +1,12 @@
 ﻿using System;
-using OpenMovement.AxLE.Comms.Commands;
-using OpenMovement.AxLE.Comms.Values;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using OpenMovement.AxLE.Comms.Interfaces;
-using OpenMovement.AxLE.Service.Models;
-using OpenMovement.AxLE.Comms.Exceptions;
 using System.Linq;
+using System.Threading.Tasks;
+using OpenMovement.AxLE.Comms.Commands;
+using OpenMovement.AxLE.Comms.Exceptions;
+using OpenMovement.AxLE.Comms.Interfaces;
+using OpenMovement.AxLE.Comms.Values;
+using OpenMovement.AxLE.Service.Models;
 
 namespace OpenMovement.AxLE.Comms
 {

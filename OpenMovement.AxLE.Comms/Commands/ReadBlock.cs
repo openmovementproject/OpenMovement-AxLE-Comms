@@ -88,9 +88,9 @@ namespace OpenMovement.AxLE.Comms.Commands
                 {
                     Battery = (sbyte) epochBytes[0],
                     Temperatue = (sbyte) epochBytes[1],
-                    Acceleration = (sbyte) epochBytes[2],
-                    Steps = (sbyte) epochBytes[3],
-                    Epoch = new sbyte[] { (sbyte) epochBytes[4], (sbyte) epochBytes[5], (sbyte) epochBytes[6], (sbyte) epochBytes[7] }
+                    Acceleration = (sbyte) (epochBytes[2] & 0x3f),
+                    Steps = (UInt16)(epochBytes[3] | ((epochBytes[2] & 0xC0) << 2)),
+                    Epoch = BitConverter.ToUInt32(epochBytes, 4)
                 });
             }
 
