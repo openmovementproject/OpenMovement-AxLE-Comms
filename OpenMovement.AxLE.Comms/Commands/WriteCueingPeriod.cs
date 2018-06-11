@@ -5,16 +5,16 @@ namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteCueingPeriod : AxLECommandNoResponse
     {
-        private readonly UInt16 _cueingPeriod;
+        private readonly UInt32 _cueingPeriod;
 
-        public WriteCueingPeriod(UInt16 cueingPeriod)
+        public WriteCueingPeriod(UInt32 cueingPeriod)
         {
             _cueingPeriod = cueingPeriod;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"C{AxLEHelper.ShortToHexWordsLE(_cueingPeriod)}");
+            await Device.TxUart($"C{_cueingPeriod}");
         }
     }
 }

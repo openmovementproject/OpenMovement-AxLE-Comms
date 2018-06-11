@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OpenMovement.AxLE.Comms.Commands
 {
-    public class ReadEpochPeriod : AxLECommand<UInt16>
+    public class ReadEpochPeriod : AxLECommand<UInt32>
     {
         private string _match;
 
@@ -32,11 +32,11 @@ namespace OpenMovement.AxLE.Comms.Commands
             return false;
         }
 
-        protected override UInt16 ProcessResult()
+        protected override UInt32 ProcessResult()
         {
             var values = _match.Split('N', ':', '\r', '\n').Where(v => !string.IsNullOrEmpty(v)).ToArray();
 
-            return UInt16.Parse(values[0]);
+            return UInt32.Parse(values[0]);
         }
     }
 }

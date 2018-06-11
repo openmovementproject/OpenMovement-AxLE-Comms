@@ -40,7 +40,7 @@ namespace OpenMovement.AxLE.Comms.Commands
 
             return new CueingConfig
             {
-                Period = UInt16.Parse(values[0]),
+                Period = UInt32.Parse(values[0]),
                 Cueing = UInt16.Parse(values[1]) > 0
             };
         }

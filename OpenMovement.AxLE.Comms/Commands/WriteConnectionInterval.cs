@@ -5,16 +5,16 @@ namespace OpenMovement.AxLE.Comms.Commands
 {
     public class WriteConnectionInterval : AxLECommandNoResponse
     {
-        private readonly UInt16 _interval;
+        private readonly UInt32 _interval;
 
-        public WriteConnectionInterval(UInt16 interval)
+        public WriteConnectionInterval(UInt32 interval)
         {
             _interval = interval;
         }
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"V{AxLEHelper.ShortToHexWordsLE(_interval)}");
+            await Device.TxUart($"V{_interval}");
         }
     }
 }

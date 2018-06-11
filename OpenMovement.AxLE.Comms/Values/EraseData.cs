@@ -1,11 +1,13 @@
-﻿namespace OpenMovement.AxLE.Comms.Values
+﻿using System;
+
+namespace OpenMovement.AxLE.Comms.Values
 {
     public struct EraseData
     {
         public double BatteryCycles { get; set; }
 
-        public int ResetCycles { get; set; }
+        public UInt32 ResetCycles { get; set; }
 
-        public int EraseCycles { get; set; }
+        public UInt32 EraseCycles { get; set; }
     }
 }

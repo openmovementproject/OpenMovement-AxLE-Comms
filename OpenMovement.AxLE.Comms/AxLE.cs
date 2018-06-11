@@ -44,8 +44,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// BLE device connection interval. Fires off command to device.
         /// </summary>
-        private UInt16 _connectionInterval;
-        public UInt16 ConnectionInterval
+        private UInt32 _connectionInterval;
+        public UInt32 ConnectionInterval
         {
             get => _connectionInterval;
             set
@@ -75,8 +75,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set cueing period in seconds. Fires off command to device.
         /// </summary>
-        private UInt16 _cueingPeriod;
-        public UInt16 CueingPeriod
+        private UInt32 _cueingPeriod;
+        public UInt32 CueingPeriod
         {
             get => _cueingPeriod;
             set
@@ -89,8 +89,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set Epoch period in seconds. Fires off command to device.
         /// </summary>
-        private UInt16 _epochPeriod;
-        public UInt16 EpochPeriod
+        private UInt32 _epochPeriod;
+        public UInt32 EpochPeriod
         {
             get => _epochPeriod;
             set
@@ -131,8 +131,8 @@ namespace OpenMovement.AxLE.Comms
         /// <summary>
         /// Get or Set the step goal threshold (vibrates when exceeded in 24hr period). Fires off command to device.
         /// </summary>
-        private UInt16 _goalThreshold;
-        public UInt16 GoalThreshold
+        private UInt32 _goalThreshold;
+        public UInt32 GoalThreshold
         {
             get => _goalThreshold;
             set

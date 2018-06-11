@@ -41,8 +41,8 @@ namespace OpenMovement.AxLE.Comms.Commands
             return new EraseData
             {
                 BatteryCycles = int.Parse(values[0]),
-                ResetCycles = int.Parse(values[1]),
-                EraseCycles = int.Parse(values[2])
+                ResetCycles = UInt32.Parse(values[1]),
+                EraseCycles = UInt32.Parse(values[2])
             };
         }
     }
