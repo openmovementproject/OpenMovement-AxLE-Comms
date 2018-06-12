@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Timers;
-using OpenMovement.AxLE.Comms.Interfaces;
-using OpenMovement.AxLE.Comms.Exceptions;
-using System.Threading.Tasks;
-using OpenMovement.AxLE.Comms.Commands;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using System.Timers;
+using OpenMovement.AxLE.Comms.Commands;
+using OpenMovement.AxLE.Comms.Exceptions;
+using OpenMovement.AxLE.Comms.Interfaces;
 
 namespace OpenMovement.AxLE.Comms
 {

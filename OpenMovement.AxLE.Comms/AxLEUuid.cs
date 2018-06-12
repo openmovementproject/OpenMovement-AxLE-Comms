@@ -13,5 +13,7 @@ namespace OpenMovement.AxLE.Comms
         public static readonly Guid DeviceInformationServiceUuid = new Guid("0000180A-0000-1000-8000-00805f9b34fb");
 
         public static readonly Guid SerialNumberCharacUuid = new Guid("00002A25-0000-1000-8000-00805f9b34fb");
+        public static readonly Guid HardwareCharacUuid = new Guid("00002A27-0000-1000-8000-00805f9b34fb");
+        public static readonly Guid FirmwareCharacUuid = new Guid("00002A26-0000-1000-8000-00805f9b34fb");
     }
 }

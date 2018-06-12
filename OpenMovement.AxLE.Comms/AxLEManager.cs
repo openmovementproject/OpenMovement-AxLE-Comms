@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Text;
-using System.Linq;
-using System.Collections.Generic;
-using OpenMovement.AxLE.Comms.Values;
-using OpenMovement.AxLE.Comms.Exceptions;
-using System.Threading;
-using OpenMovement.AxLE.Comms.Interfaces;
 using OpenMovement.AxLE.Comms.Bluetooth.Interfaces;
 using OpenMovement.AxLE.Comms.Bluetooth.Values;
-using System.Collections.Concurrent;
+using OpenMovement.AxLE.Comms.Exceptions;
+using OpenMovement.AxLE.Comms.Interfaces;
 
 namespace OpenMovement.AxLE.Comms
 {
@@ -292,7 +291,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        public async Task<AxLE> ConnectDevice(string serial)
+        public async Task<IAxLE> ConnectDevice(string serial)
         {
             if (!_devices.ContainsKey(serial))
                 throw new DeviceNotInRangeException();
@@ -301,13 +300,11 @@ namespace OpenMovement.AxLE.Comms
             _lastSeen.Remove(bleDevice.Id);
             // Only neccesary if we disconnect from each discovered device.
             await _ble.ConnectToDevice(bleDevice);
-            var device = new AxLEDevice(bleDevice);
-            await device.OpenComms();
 
-            return new AxLE(device, serial);
+            return await CreateAxLE(bleDevice, serial);
         }
 
-        public async Task<AxLE> ConnectToKnownDevice(string serial, bool timeout = true)
+        public async Task<IAxLE> ConnectToKnownDevice(string serial, bool timeout = true)
         {
             var delayTask = Task.Delay(1000);
 
@@ -333,12 +330,27 @@ namespace OpenMovement.AxLE.Comms
                 bleDevice = await conntectTask;
             }
 
-            var axLE = new AxLEDevice(bleDevice);
-            await axLE.OpenComms();
-            return new AxLE(axLE, serial);
+            return await CreateAxLE(bleDevice, serial);
         }
 
-        public async Task DisconnectDevice(AxLE device)
+        private async Task<IAxLE> CreateAxLE(IDevice device, string serial)
+        {
+            var axLE = new AxLEDevice(device);
+            await axLE.OpenComms();
+
+            if (axLE.HardwareVersion == 1.1)
+                throw new DeviceIncompatibleException($"Hardware Version {axLE.HardwareVersion} is unsupported by this library.");
+
+            switch (axLE.FirmwareVersion)
+            {
+                case 1.5:
+                    return new AxLEv1_5(axLE, serial);
+                default:
+                    throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");
+            }
+        }
+
+        public async Task DisconnectDevice(IAxLE device)
         {
             device.Dispose();
             var bleDevice = _devices[device.SerialNumber];

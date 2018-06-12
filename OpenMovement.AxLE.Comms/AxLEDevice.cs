@@ -1,7 +1,6 @@
 ﻿using OpenMovement.AxLE.Comms.Bluetooth.Interfaces;
 using OpenMovement.AxLE.Comms.Exceptions;
 using OpenMovement.AxLE.Comms.Interfaces;
-using OpenMovement.AxLE.Comms.Values;
 using System;
 using System.Collections.Concurrent;
 using System.Text;
@@ -18,6 +17,8 @@ namespace OpenMovement.AxLE.Comms
         private readonly ConcurrentQueue<Task> _rxTasks;
 
         public string DeviceId { get; }
+        public double HardwareVersion { get; private set; }
+        public double FirmwareVersion { get; private set; }
         public bool Ready { get; private set; }
         public event EventHandler<string> RxUart;
 
@@ -53,6 +54,16 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task OpenComms()
         {
+            var infoService = await _device.GetService(AxLEUuid.DeviceInformationServiceUuid);
+            var hardwareCharac = await infoService.GetCharacteristic(AxLEUuid.HardwareCharacUuid);
+            var firmwareCharac = await infoService.GetCharacteristic(AxLEUuid.FirmwareCharacUuid);
+
+            var hardware = Encoding.UTF8.GetString(await hardwareCharac.Read());
+            var firmware = Encoding.UTF8.GetString(await firmwareCharac.Read());
+
+            HardwareVersion = double.Parse(hardware);
+            FirmwareVersion = double.Parse(firmware);
+
             var uartService = await _device.GetService(AxLEUuid.UartServiceUuid);
 
             RxCharac = await uartService.GetCharacteristic(AxLEUuid.UartRxCharacUuid);

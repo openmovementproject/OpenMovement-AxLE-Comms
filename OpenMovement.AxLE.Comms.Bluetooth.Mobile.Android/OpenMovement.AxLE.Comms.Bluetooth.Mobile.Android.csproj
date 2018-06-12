@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
-      <Project>{5E142D51-AC8C-4497-92D5-E8A67389B9ED}</Project>
+      <Project>{781FB070-0380-4437-B880-0512F971C782}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
