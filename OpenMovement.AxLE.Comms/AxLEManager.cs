@@ -338,7 +338,7 @@ namespace OpenMovement.AxLE.Comms
             var axLE = new AxLEDevice(device);
             await axLE.OpenComms();
 
-            if (axLE.HardwareVersion == 1.1)
+            if (axLE.HardwareVersion != 1.1)
                 throw new DeviceIncompatibleException($"Hardware Version {axLE.HardwareVersion} is unsupported by this library.");
 
             switch (axLE.FirmwareVersion)
