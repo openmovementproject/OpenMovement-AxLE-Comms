@@ -153,8 +153,10 @@ namespace OpenMovement.AxLE.Comms
             for (var i = 0; i < 5; i++)
             {
                 await _processor.AddCommand(new LED2Test());
+                Thread.Sleep(100);
                 await _processor.AddCommand(new AllHardwareOff());
                 await _processor.AddCommand(new LED3Test());
+                Thread.Sleep(100);
                 await _processor.AddCommand(new AllHardwareOff());
             }
         }
