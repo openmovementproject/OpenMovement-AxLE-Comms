@@ -329,7 +329,7 @@ namespace OpenMovement.AxLE.Comms
             var startSet = sets.Last();
 
             var offsetRtc = startSet.Last().BlockInfo.DeviceTimestamp;
-            var offsetTime = lastSync.Value.AddSeconds(offsetRtc - startSet.First().BlockInfo.DeviceTimestamp);
+			var offsetTime = lastSync.Value.AddSeconds((int)(offsetRtc - startSet.First().BlockInfo.DeviceTimestamp));
 
             var recoveredBlocks = new List<EpochBlock>();
             recoveredBlocks.AddRange(CalculateTimestampsForSet(startSet, offsetRtc, offsetTime));
@@ -350,7 +350,7 @@ namespace OpenMovement.AxLE.Comms
 
         private DateTimeOffset CalculateTimestamp(UInt32 timestamp, UInt32 currentRtc, DateTimeOffset currentTime)
         {
-            return currentTime.AddSeconds(timestamp - currentRtc);
+			return currentTime.AddSeconds((int) (timestamp - currentRtc));
         }
 
         private async Task ReadBattery()
