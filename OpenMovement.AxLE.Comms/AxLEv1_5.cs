@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Commands.V1;
 using OpenMovement.AxLE.Comms.Exceptions;
@@ -194,7 +195,8 @@ namespace OpenMovement.AxLE.Comms
             var blocks = new List<EpochBlock>();
 
             await _processor.AddCommand(new HighSpeedMode());
-
+            await ReadConnectionInterval();
+            
             var blockDetails = await WriteCurrentBlock(readFrom);
 
             var last = readFrom;
@@ -205,14 +207,23 @@ namespace OpenMovement.AxLE.Comms
                 {
                     block = await SyncCurrentEpochBlock();
                 }
-                catch (BlockSyncFailedException)
+                catch (Exception e)
                 {
-                    var blockFailed = (ushort)(last + 1);
+                    if (e is BlockSyncFailedException || e is CommandFailedException)
+                    {
+                        var blockFailed = (ushort)(last + 1);
 #if DEBUG_COMMS
-                    Console.WriteLine($"SYNC -- READ BLOCK {blockFailed} FAILED -- RESYNCING");
-#endif              
-                    await WriteCurrentBlock(blockFailed);
-                    block = await SyncCurrentEpochBlock();
+                        Console.WriteLine($"SYNC -- READ BLOCK {blockFailed} FAILED -- RESYNCING");
+#endif
+
+                        // If read operation failure cause by device not writing block in time wait for 3 connection intervals and retry.
+                        Thread.Sleep((int)(ConnectionInterval * 3));
+
+                        await WriteCurrentBlock(blockFailed);
+                        block = await SyncCurrentEpochBlock();
+                    }
+
+                    throw;
                 }
 #if DEBUG_COMMS
                 Console.WriteLine($"SYNC -- Read Block: {block.BlockInfo.BlockNumber}");

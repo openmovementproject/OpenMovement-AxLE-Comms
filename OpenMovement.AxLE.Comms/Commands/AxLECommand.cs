@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -82,7 +83,15 @@ namespace OpenMovement.AxLE.Comms.Commands
             TimeoutTimer.Stop();
             TimeoutTimer.Dispose();
 
-            TCS.SetResult(ProcessResult());
+            try
+            {
+                var result = ProcessResult();
+                TCS.SetResult(result);
+            }
+            catch (Exception e)
+            {
+                TCS.SetException(new CommandFailedException(Data.ToArray(), e));
+            }
         }
 
         private void ErrorCommand()
