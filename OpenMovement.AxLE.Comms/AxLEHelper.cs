@@ -13,12 +13,16 @@ namespace OpenMovement.AxLE.Comms
             return bytes;
         }
 
+        /// <summary>
+        /// Returns four-digit (bytewise) little-endian hex number: first two nibbles are the low byte, second two are the high byte.
+        /// </summary>
+        /// <returns>Four digit string</returns>
         public static string ShortToHexWordsLE(UInt16 value)
         {
-            var little = value & 0xFFul;
-            var result = ((little << 8) | ((ulong)(value >> 8) & 0xFFul));
-
-            return result.ToString("X");
+            var low = value & 0xFF;
+            var high = (value >> 8) & 0xFF;
+            var result = low.ToString("X2") + high.ToString("X2");
+            return result;
         }
     }
 }
