@@ -336,16 +336,29 @@ namespace OpenMovement.AxLE.Comms
         private async Task<IAxLE> CreateAxLE(IDevice device, string serial)
         {
             var axLE = new AxLEDevice(device);
-            await axLE.OpenComms();
+
+            try
+            {
+                await axLE.OpenComms();
+            }
+            catch (Exception e)
+            {
+                await _ble.DisconnectDevice(device);
+                throw new CommsFailureException(e);
+            }
 
             if (axLE.HardwareVersion != 1.1)
+            {
+                await _ble.DisconnectDevice(device);
                 throw new DeviceIncompatibleException($"Hardware Version {axLE.HardwareVersion} is unsupported by this library.");
+            }
 
             switch (axLE.FirmwareVersion)
             {
                 case 1.5:
                     return new AxLEv1_5(axLE, serial);
                 default:
+                    await _ble.DisconnectDevice(device);
                     throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");
             }
         }
