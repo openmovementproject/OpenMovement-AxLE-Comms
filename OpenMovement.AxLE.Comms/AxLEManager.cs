@@ -214,10 +214,10 @@ namespace OpenMovement.AxLE.Comms
                 {
                     _interrogateQueue.Enqueue(device);
                 }
-            } else 
+            }
+            else 
             {
                 _devices[device.MacAddress] = device;
-                _lastSeen[device.Id] = DateTime.Now;
                 DeviceFound?.Invoke(this, device.MacAddress);
             }
         }
@@ -237,7 +237,6 @@ namespace OpenMovement.AxLE.Comms
                         if (!string.IsNullOrEmpty(serial))
                         {
                             _devices[serial] = device;
-                            _lastSeen[device.Id] = DateTime.Now;
                             DeviceFound?.Invoke(this, serial);
                         }
                     }
