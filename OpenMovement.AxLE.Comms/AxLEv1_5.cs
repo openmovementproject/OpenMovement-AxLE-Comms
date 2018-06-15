@@ -133,6 +133,18 @@ namespace OpenMovement.AxLE.Comms
             await ReadGoalConfig();
         }
 
+		public async Task UpdateDeviceState(uint flags)
+        {
+    		// TODO: Remove this if not needed, or make these enum flags instead
+			if ((flags & 0x0001) != 0) await ReadBattery();
+			if ((flags & 0x0002) != 0) await ReadDeviceTime();
+			if ((flags & 0x0004) != 0) await ReadEraseData();
+			if ((flags & 0x0008) != 0) await ReadConnectionInterval();
+			if ((flags & 0x0010) != 0) await ReadCueingStatus();
+			if ((flags & 0x0020) != 0) await ReadEpochPeriod();
+			if ((flags & 0x0040) != 0) await ReadGoalConfig();
+		}
+
         public async Task SetPassword(string password)
         {
             await _processor.AddCommand(new SetPassword(password));
@@ -191,8 +203,15 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task<EpochBlock[]> SyncEpochData(UInt16 readFrom, UInt16 readTo, UInt32? startRtc = null, DateTimeOffset? startTime = null)
         {
-            if (((UInt16)(readTo - readFrom)) > AxLEConfig.BlockCount)
-                throw new InvalidBlockRangeException(readFrom, readTo);
+			// Check if we've lost data since the last sync (device's circular buffer has wrapped)
+			if (((UInt16)(readTo - readFrom)) > AxLEConfig.BlockCount)
+			{
+				//throw new InvalidBlockRangeException(readFrom, readTo);
+                // Adjust to read as much as we can
+				UInt16 newReadFrom = (UInt16)(readTo - AxLEConfig.BlockCount + 1);
+				Console.WriteLine($"WARNING: Some data was lost from the device through the circular buffer was asking to read from {readFrom} to {readTo}, will now read from {newReadFrom}.");
+				readFrom = newReadFrom;
+			}
 
             var blocks = new List<EpochBlock>();
 
@@ -201,39 +220,52 @@ namespace OpenMovement.AxLE.Comms
             
             var blockDetails = await WriteCurrentBlock(readFrom);
 
-            var last = readFrom;
-            while (last != readTo)
+            var current = readFrom;
+			var count = (UInt16)(readTo - readFrom + 1);    // inclusive range
+            if (count > AxLEConfig.BlockCount)
             {
-                EpochBlock block = null;
-                try
-                {
-                    block = await SyncCurrentEpochBlock();
-                }
-                catch (Exception e)
-                {
-                    if (e is BlockSyncFailedException || e is CommandFailedException)
-                    {
-                        var blockFailed = (ushort)(last + 1);
-#if DEBUG_COMMS
-                        Console.WriteLine($"SYNC -- READ BLOCK {blockFailed} FAILED -- RESYNCING");
-#endif
-
-                        // If read operation failure cause by device not writing block in time wait for 3 connection intervals and retry.
-                        Thread.Sleep((int)(ConnectionInterval * 3));
-
-                        await WriteCurrentBlock(blockFailed);
-                        block = await SyncCurrentEpochBlock();
-                    }
-
-                    throw;
-                }
-#if DEBUG_COMMS
-                Console.WriteLine($"SYNC -- Read Block: {block.BlockInfo.BlockNumber}");
-#endif
-                last = block.BlockInfo.BlockNumber;
-
-                blocks.Add(block);
+                throw new InvalidBlockRangeException(readFrom, readTo);
             }
+			for (var i = 0; i < count; i++)
+			{
+				EpochBlock block = null;
+				try
+				{
+					block = await SyncCurrentEpochBlock();
+				}
+				catch (Exception e)
+				{
+					if (e is BlockSyncFailedException || e is CommandFailedException)
+					{
+#if DEBUG_COMMS
+						Console.WriteLine($"SYNC -- READ BLOCK {current} FAILED -- RESYNCING");
+#endif
+
+						// If read operation failure cause by device not writing block in time wait for 3 connection intervals and retry.
+						Thread.Sleep((int)(ConnectionInterval * 3));
+
+						await WriteCurrentBlock(current);
+						block = await SyncCurrentEpochBlock();
+					}
+
+					throw;
+				}
+#if DEBUG_COMMS
+				Console.WriteLine($"SYNC -- Read Block: {block.BlockInfo.BlockNumber}");
+#endif
+				if (current != block.BlockInfo.BlockNumber)
+				{
+					Console.WriteLine($"WARNING: Unexpected block read, found {block.BlockInfo.BlockNumber} expected {current}.");
+				}
+				current = (UInt16)(block.BlockInfo.BlockNumber + 1);
+
+				blocks.Add(block);
+			}
+				
+			if (blocks.Count != count)
+			{
+				Console.WriteLine($"WARNING: Only read {blocks.Count} blocks, expected {count}.");
+			}
 #if DEBUG_COMMS
             Console.WriteLine($"SYNC COMPLETE -- Blocks Read: {blocks.Count}");
 #endif

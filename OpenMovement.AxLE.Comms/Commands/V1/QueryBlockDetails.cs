@@ -40,7 +40,7 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
             return new BlockDetails
             {
                 Time = UInt32.Parse(values[0]),
-                ActiveBlock = UInt16.Parse(values[1]),
+				ActiveBlock = UInt16.Parse(values[1]),  // activeEpochBlock.info.block_number
                 ActiveSamples = UInt16.Parse(values[2]),
                 ActiveEpoch = UInt32.Parse(values[3]),
                 BlockCount = UInt16.Parse(values[4]),
