@@ -55,9 +55,18 @@ namespace OpenMovement.AxLE.Comms.Commands
 
         public async Task Execute()
         {
-            ResetTimer();
             Device.RxUart += DataRecieved;
-            await SendCommand();
+
+            try
+            {
+                await SendCommand();
+            }
+            catch (Exception e)
+            {
+                TCS.SetException(new CommandFailedException(e));
+            }
+
+            ResetTimer();
             await TCS.Task;
         }
 

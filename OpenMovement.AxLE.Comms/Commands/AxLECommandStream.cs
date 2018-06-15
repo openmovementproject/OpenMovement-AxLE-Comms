@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OpenMovement.AxLE.Comms.Exceptions;
 using OpenMovement.AxLE.Comms.Interfaces;
 
 namespace OpenMovement.AxLE.Comms.Commands
@@ -25,7 +26,16 @@ namespace OpenMovement.AxLE.Comms.Commands
         public async Task Execute()
         {
             Device.RxUart += DataRecieved;
-            await SendStartCommand();
+
+            try
+            {
+                await SendStartCommand();
+            }
+            catch (Exception e)
+            {
+                TCS.SetException(new CommandFailedException(e));
+            }
+
             await TCS.Task;
         }
 

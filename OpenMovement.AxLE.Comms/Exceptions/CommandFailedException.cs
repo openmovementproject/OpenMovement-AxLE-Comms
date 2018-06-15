@@ -14,5 +14,7 @@ namespace OpenMovement.AxLE.Comms.Exceptions
         {
             DataDump = data;
         }
+
+        public CommandFailedException(Exception e) : base("Command failed to execute, ensure the device is still in range. Check InnerExceiption for more details.", e) {}
     }
 }
