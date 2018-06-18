@@ -13,8 +13,8 @@ namespace OpenMovement.AxLE.Comms
 {
     public class AxLEv1_5 : IAxLE
     {
-        private readonly IAxLEDevice _device;
-        private readonly IAxLEProcessor _processor;
+		protected readonly IAxLEDevice _device;
+		protected readonly IAxLEProcessor _processor;
 
         public string DeviceId { get; }
         public string SerialNumber { get; }
@@ -299,6 +299,11 @@ namespace OpenMovement.AxLE.Comms
         {
             return await _processor.AddCommand(new QueryBlockDetails());
         }
+
+		public virtual async Task<string> DebugDump()
+		{
+			return await _processor.AddCommand(new DebugDump());
+		}
 
         private bool CheckCRC(byte[] data, ushort crc)
         {

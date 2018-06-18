@@ -142,5 +142,11 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// </summary>
         /// <returns>The block details.</returns>
         Task<BlockDetails> ReadBlockDetails();
+
+        /// <summary>
+        /// Retrieve Debug output from device.
+        /// </summary>
+        /// <returns>The dump.</returns>
+		Task<string> DebugDump();
     }
 }
