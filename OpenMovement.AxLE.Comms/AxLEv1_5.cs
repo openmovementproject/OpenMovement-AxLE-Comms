@@ -198,19 +198,24 @@ namespace OpenMovement.AxLE.Comms
         public async Task<EpochBlock[]> SyncEpochData(UInt16 lastBlock, UInt32? lastRtc = null, DateTimeOffset? lastSync = null)
         {
             var blockDetails = await _processor.AddCommand(new QueryBlockDetails());
-            return await SyncEpochData(lastBlock, blockDetails.ActiveBlock, lastRtc, lastSync);
+            UInt16 readFrom = lastBlock;
+            UInt16 readTo = blockDetails.ActiveBlock;
+            // Check if we've lost data since the last sync (device's circular buffer has wrapped)
+            if (((UInt16)(readTo - readFrom)) > AxLEConfig.BlockCount)
+            {
+                // Adjust to read as much as we can
+                UInt16 newReadFrom = (UInt16)(readTo - AxLEConfig.BlockCount + 1);
+                Console.WriteLine($"WARNING: Some data was lost from the device through the circular buffer was asking to read from {readFrom} to {readTo}, will now read from {newReadFrom}.");
+                readFrom = newReadFrom;
+            }
+            return await SyncEpochData(readFrom, readTo, lastRtc, lastSync);
         }
 
         public async Task<EpochBlock[]> SyncEpochData(UInt16 readFrom, UInt16 readTo, UInt32? startRtc = null, DateTimeOffset? startTime = null)
         {
-			// Check if we've lost data since the last sync (device's circular buffer has wrapped)
 			if (((UInt16)(readTo - readFrom)) > AxLEConfig.BlockCount)
 			{
-				//throw new InvalidBlockRangeException(readFrom, readTo);
-                // Adjust to read as much as we can
-				UInt16 newReadFrom = (UInt16)(readTo - AxLEConfig.BlockCount + 1);
-				Console.WriteLine($"WARNING: Some data was lost from the device through the circular buffer was asking to read from {readFrom} to {readTo}, will now read from {newReadFrom}.");
-				readFrom = newReadFrom;
+				throw new InvalidBlockRangeException(readFrom, readTo);
 			}
 
             var blocks = new List<EpochBlock>();
@@ -240,16 +245,24 @@ namespace OpenMovement.AxLE.Comms
 #if DEBUG_COMMS
 						Console.WriteLine($"SYNC -- READ BLOCK {current} FAILED -- RESYNCING");
 #endif
-
 						// If read operation failure cause by device not writing block in time wait for 3 connection intervals and retry.
 						Thread.Sleep((int)(ConnectionInterval * 3));
 
 						await WriteCurrentBlock(current);
-						block = await SyncCurrentEpochBlock();
-					}
-
-					throw;
-				}
+                        try
+                        {
+                            block = await SyncCurrentEpochBlock();
+                        }
+                        catch (Exception)
+                        {
+                            throw;  // retry failed
+                        }
+                    }
+                    else
+                    {
+                        throw;      // another problem
+                    }
+                }
 #if DEBUG_COMMS
 				Console.WriteLine($"SYNC -- Read Block: {block.BlockInfo.BlockNumber}");
 #endif
@@ -257,7 +270,7 @@ namespace OpenMovement.AxLE.Comms
 				{
 					Console.WriteLine($"WARNING: Unexpected block read, found {block.BlockInfo.BlockNumber} expected {current}.");
 				}
-				current = (UInt16)(block.BlockInfo.BlockNumber + 1);
+				current = (UInt16)(block.BlockInfo.BlockNumber + 1);    // next block
 
 				blocks.Add(block);
 			}
