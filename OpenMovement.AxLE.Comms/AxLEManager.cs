@@ -358,6 +358,8 @@ namespace OpenMovement.AxLE.Comms
                     return new AxLEv1_5(axLE, serial);
 				case 1.6:
 					return new AxLEv1_6(axLE, serial);
+                case 1.7:
+                    return new AxLEv1_7(axLE, serial);
                 default:
                     await _ble.DisconnectDevice(device);
                     throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");
