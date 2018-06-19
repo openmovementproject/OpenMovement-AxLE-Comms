@@ -205,7 +205,9 @@ namespace OpenMovement.AxLE.Comms
             {
                 // Adjust to read as much as we can
                 UInt16 newReadFrom = (UInt16)(readTo - AxLEConfig.BlockCount + 1);
-                Console.WriteLine($"WARNING: Some data was lost from the device through the circular buffer was asking to read from {readFrom} to {readTo}, will now read from {newReadFrom}.");
+#if DEBUG_COMMS
+                Console.WriteLine($"SYNC WARNING: Some data was lost from the device through the circular buffer was asking to read from {readFrom} to {readTo}, will now read from {newReadFrom}.");
+#endif
                 readFrom = newReadFrom;
             }
             return await SyncEpochData(readFrom, readTo, lastRtc, lastSync);
