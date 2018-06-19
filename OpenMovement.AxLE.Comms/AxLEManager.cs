@@ -296,9 +296,18 @@ namespace OpenMovement.AxLE.Comms
                 throw new DeviceNotInRangeException();
 
             var bleDevice = _devices[serial];
+
+            try
+            {
+                // Only neccesary if we disconnect from each discovered device.
+                await _ble.ConnectToDevice(bleDevice);
+            }
+            catch (Exception e)
+            {
+                throw new ConnectException(e);
+            }
+
             _lastSeen.Remove(bleDevice.Id);
-            // Only neccesary if we disconnect from each discovered device.
-            await _ble.ConnectToDevice(bleDevice);
 
             return await CreateAxLE(bleDevice, serial);
         }
@@ -312,11 +321,17 @@ namespace OpenMovement.AxLE.Comms
             var conntectTask = _ble.ConnectToKnownDevice(device.Id, ct.Token);
 
             IDevice bleDevice;
-
             if (timeout)
             {
-                var result = await Task.WhenAny(conntectTask, delayTask);
-
+                Task result;
+                try
+                {
+                    result = await Task.WhenAny(conntectTask, delayTask);
+                }
+                catch (Exception e)
+                {
+                    throw new ConnectException(e);
+                }
                 if (result == delayTask)
                 {
                     ct.Cancel();
@@ -324,9 +339,17 @@ namespace OpenMovement.AxLE.Comms
                 }
 
                 bleDevice = (IDevice)result;
-            } else
+            }
+            else
             {
-                bleDevice = await conntectTask;
+                try
+                {
+                    bleDevice = await conntectTask;
+                }
+                catch (Exception e)
+                {
+                    throw new ConnectException(e);
+                }
             }
 
             return await CreateAxLE(bleDevice, serial);
