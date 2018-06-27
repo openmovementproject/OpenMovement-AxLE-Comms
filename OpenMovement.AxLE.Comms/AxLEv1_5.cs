@@ -240,29 +240,36 @@ namespace OpenMovement.AxLE.Comms
 				{
 					block = await SyncCurrentEpochBlock();
 				}
-				catch (Exception e)
+				catch (Exception ex)
 				{
-					if (e is BlockSyncFailedException || e is CommandFailedException)
+                    // Worth a retry if it's a result of a possible temporary failure
+                    if (ex is BlockSyncFailedException || ex is CommandFailedException)
 					{
 #if DEBUG_COMMS
 						Console.WriteLine($"SYNC -- READ BLOCK {current} FAILED -- RESYNCING");
 #endif
 						// If read operation failure cause by device not writing block in time wait for 3 connection intervals and retry.
 						Thread.Sleep((int)(ConnectionInterval * 3));
-
-						await WriteCurrentBlock(current);
+                        // Retry
                         try
                         {
+                            await WriteCurrentBlock(current);
                             block = await SyncCurrentEpochBlock();
                         }
-                        catch (Exception)
+                        catch (BlockSyncFailedException)
                         {
-                            throw;  // retry failed
+                            throw;
+                        }
+                        catch (Exception ex2)
+                        {
+                            // The retry also failed
+                            throw new BlockSyncFailedException("The retry failed after the original exception: " + ex.Message, current, null, ex2);
                         }
                     }
                     else
                     {
-                        throw;      // another problem
+                        // An unanticipated problem
+                        throw new BlockSyncFailedException("Unanticipated problem that was not retried.", current, null, ex);
                     }
                 }
 #if DEBUG_COMMS
@@ -302,7 +309,7 @@ namespace OpenMovement.AxLE.Comms
                 return block;
             }
 
-            throw new BlockSyncFailedException(block.BlockInfo.BlockNumber, block.Raw);
+            throw new BlockSyncFailedException("CRC check failed", block.BlockInfo.BlockNumber, block.Raw);
         }
 
         public async Task<BlockDetails> WriteCurrentBlock(UInt16 blockNo)

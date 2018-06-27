@@ -6,7 +6,7 @@ namespace OpenMovement.AxLE.Comms.Exceptions
         public UInt16 BlockNumber { get; }
         public byte[] DataDump { get; }
 
-        public BlockSyncFailedException(UInt16 blockNumber, byte[] data) : base("Block failed to sync, CRC check failed.")
+        public BlockSyncFailedException(string detail, UInt16 blockNumber, byte[] data, Exception innerException = null) : base("Block failed to sync. " + (detail ?? ""), innerException)
         {
             BlockNumber = blockNumber;
             DataDump = data;
