@@ -24,5 +24,19 @@ namespace OpenMovement.AxLE.Comms
             var result = low.ToString("X2") + high.ToString("X2");
             return result;
         }
+
+        /// <summary>
+        /// Returns eight-digit (bytewise) little-endian hex number: first two nibbles are the low byte, etc.
+        /// </summary>
+        /// <returns>Eight digit string</returns>
+        public static string IntToHexWordsLE(UInt32 value)
+        {
+            var a = value & 0xFF;
+            var b = (value >> 8) & 0xFF;
+            var c = (value >> 16) & 0xFF;
+            var d = (value >> 24) & 0xFF;
+            var result = a.ToString("X2") + b.ToString("X2") + c.ToString("X2") + d.ToString("X2");
+            return result;
+        }
     }
 }
