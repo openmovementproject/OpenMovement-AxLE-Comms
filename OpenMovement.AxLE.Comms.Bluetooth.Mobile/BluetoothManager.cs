@@ -102,6 +102,11 @@ namespace OpenMovement.AxLE.Comms.Bluetooth.Mobile
                 }
             };
 
+            _adapter.ScanTimeoutElapsed += (s, e) =>
+            {
+                ScanTimeoutElapsed?.Invoke(s, e);
+            };
+
             _adapter.DeviceDiscovered += NativeDeviceDiscovered;
             _adapter.DeviceAdvertised += NativeDeviceAdvertised;
             _adapter.DeviceDisconnected += NativeDeviceDisconnected;
