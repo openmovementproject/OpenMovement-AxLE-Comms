@@ -203,7 +203,7 @@ namespace OpenMovement.AxLE.Comms
 
         private void AxLEDeviceAdvertised(object sender, IDevice device)
         {
-            if (device.Rssi > RssiFilter && !_lastSeen.ContainsKey(device.Id))
+            if (!_lastSeen.ContainsKey(device.Id))
             {
                 if (_devices.Any(d => d.Value.Id == device.Id))
                 {
@@ -219,7 +219,7 @@ namespace OpenMovement.AxLE.Comms
 
         private void ProcessDeviceDiscovered(IDevice device)
         {
-            if (device.Rssi > RssiFilter && _devices.Any(d => d.Value.Id == device.Id))
+            if (_devices.Any(d => d.Value.Id == device.Id))
                 return;
 
             if (string.IsNullOrEmpty(device.MacAddress))
