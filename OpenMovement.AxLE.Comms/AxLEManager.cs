@@ -45,6 +45,8 @@ namespace OpenMovement.AxLE.Comms
         public event EventHandler<IDevice> BootDeviceLost;
         public event EventHandler<IDevice> BootDeviceDisconnected;
 
+        private volatile bool _scanning = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:OpenMovement.AxLE.Comms.AxLEManager"/> class.
         /// </summary>
@@ -55,8 +57,18 @@ namespace OpenMovement.AxLE.Comms
         {
             _ble = ble;
 
-            _ble.ScanTimeout = 999999999;
-            _ble.ScanTimeoutElapsed += async (s, a) => { await StartScan(); };
+            _ble.ScanTimeout = 1 * 24 * 60 * 60 * 1000; // 1 day (24 days maximum from int.MaxValue)
+            _ble.ScanTimeoutElapsed += (s, a) =>
+            {
+                // Scan timeout occurs after the timeout or when the scan is cancelled
+                // Restart the scan if it was a timeout
+                if (_scanning)
+                {
+#pragma warning disable CS4014  // do not await the async start scan
+                    StartScan();
+#pragma warning restore CS4014
+                }
+            };
 
             _ble.StateChanged += StateChanged;
             _ble.DeviceDiscovered += AxLEDeviceDiscovered;
@@ -89,6 +101,7 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task StartScan()
         {
+            _scanning = true;
             _interrogateTimer.Start();
             _nearbyTimer.Start();
 			await _ble.StartScan(AxLEScanServiceUuids, (d) => d.Name == AxLEDeviceName);
@@ -101,7 +114,8 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task StopScan()
 		{
-			await _ble.StopScan();
+            _scanning = false;
+            await _ble.StopScan();
             _interrogateTimer.Stop();
             _interrogateQueue = new ConcurrentQueue<IDevice>();
             _nearbyTimer.Stop();
