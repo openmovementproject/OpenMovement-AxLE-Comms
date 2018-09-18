@@ -391,12 +391,12 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task DisconnectDevice(IAxLE device)
         {
-            device.Dispose();
             var bleDevice = _devices[device.SerialNumber];
             await _ble.DisconnectDevice(bleDevice);
+            device.Dispose();
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
             _interrogateTimer.Stop();
             _interrogateTimer.Dispose();
@@ -412,6 +412,11 @@ namespace OpenMovement.AxLE.Comms
             _ble.DeviceDiscovered -= BootloaderDeviceDiscovered;
             _ble.DeviceDisconnected -= BootloaderDeviceDisconnected;
             _ble.DeviceConnectionLost -= BootloaderDeviceConnectionLost;
+
+            foreach(var bleDevice in _devices.Values)
+            {
+                await _ble.DisconnectDevice(bleDevice);
+            }
         }
     }
 }
