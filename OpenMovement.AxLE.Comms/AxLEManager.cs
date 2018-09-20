@@ -57,7 +57,8 @@ namespace OpenMovement.AxLE.Comms
         {
             _ble = ble;
 
-            _ble.ScanTimeout = 1 * 24 * 60 * 60 * 1000; // 1 day (24 days maximum from int.MaxValue)
+            //_ble.ScanTimeout = 1 * 24 * 60 * 60 * 1000; // 1 day (24 days maximum from int.MaxValue)
+            _ble.ScanTimeout =  15 * 60 * 1000;
             _ble.ScanTimeoutElapsed += (s, a) =>
             {
                 // Scan timeout occurs after the timeout or when the scan is cancelled
