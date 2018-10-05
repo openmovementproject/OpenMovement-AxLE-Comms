@@ -39,7 +39,13 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
                 var endM = new Regex(end);
 
                 var endMatch = endM.Match(match.Value);
-                var hexString = match.Value.Substring(0, endMatch.Index);
+                var nibbleCount = endMatch.Index;
+                if ((nibbleCount & 1) != 0)
+                {
+                    Console.WriteLine($"WARNING: Packet contained odd number of nibbles, ignoring last: {nibbleCount}");
+                    nibbleCount &= ~1;
+                }
+                var hexString = match.Value.Substring(0, nibbleCount);
 
                 Data.Clear();
 
@@ -53,26 +59,55 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
         protected override AccBlock ProcessBlock()
         {
-            var block = new AccBlock
+            var block = new AccBlock();
+
+            if (LastBlockBytes.Length >= 4)
             {
-                Timestamp = BitConverter.ToUInt32(LastBlockBytes, 0),
-                Battery = BitConverter.ToUInt16(LastBlockBytes, 4),
-                Temperature = BitConverter.ToUInt16(LastBlockBytes, 6)
+                block.Timestamp = BitConverter.ToUInt32(LastBlockBytes, 0);
+            }
+            if (LastBlockBytes.Length >= 6)
+            {
+                block.Battery = BitConverter.ToUInt16(LastBlockBytes, 4);
+            }
+            if (LastBlockBytes.Length >= 8)
+            {
+                block.Temperature = BitConverter.ToUInt16(LastBlockBytes, 6);
             };
 
             var samples = new List<Int16[]>();
-            var sampleBytes = new byte[6];
 
-            for (int i = 8; i < 8 + 6 * SampleCount; i += 6)
+            if (LastBlockBytes.Length < 8)
             {
-                Array.Copy(LastBlockBytes, i, sampleBytes, 0, sampleBytes.Length);
-                var sample = new Int16[3];
+                Console.WriteLine($"WARNING: Packet too short: ${LastBlockBytes.Length}");
+            }
+            else
+            {
+                const int bytesPerSample = 6;
+                var sampleBytes = new byte[bytesPerSample];
 
-                sample[0] = BitConverter.ToInt16(sampleBytes, 0);
-                sample[1] = BitConverter.ToInt16(sampleBytes, 2);
-                sample[2] = BitConverter.ToInt16(sampleBytes, 4);
+                if (((LastBlockBytes.Length - 8) % bytesPerSample) != 0)
+                {
+                    Console.WriteLine($"WARNING: Packet contains a partial sample, ignoring: {LastBlockBytes.Length}");
+                }
 
-                samples.Add(sample);
+                var maxSamples = (LastBlockBytes.Length - 8) / bytesPerSample;
+                if (maxSamples != SampleCount)
+                {
+                    Console.WriteLine($"WARNING: Packet sample count different to expected: {maxSamples}, {SampleCount}");
+                }
+
+                if (maxSamples > SampleCount) maxSamples = SampleCount;
+                for (int i = 0; i < maxSamples; i++)
+                {
+                    Array.Copy(LastBlockBytes, 8 + bytesPerSample * i, sampleBytes, 0, sampleBytes.Length);
+                    var sample = new Int16[3];
+
+                    sample[0] = BitConverter.ToInt16(sampleBytes, 0);
+                    sample[1] = BitConverter.ToInt16(sampleBytes, 2);
+                    sample[2] = BitConverter.ToInt16(sampleBytes, 4);
+
+                    samples.Add(sample);
+                }
             }
 
             block.Samples = samples.ToArray();
