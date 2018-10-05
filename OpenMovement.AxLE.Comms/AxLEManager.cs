@@ -57,7 +57,8 @@ namespace OpenMovement.AxLE.Comms
         {
             _ble = ble;
 
-            _ble.ScanTimeout = 1 * 24 * 60 * 60 * 1000; // 1 day (24 days maximum from int.MaxValue)
+            //_ble.ScanTimeout = 1 * 24 * 60 * 60 * 1000; // 1 day (24 days maximum from int.MaxValue)
+            _ble.ScanTimeout =  15 * 60 * 1000;
             _ble.ScanTimeoutElapsed += (s, a) =>
             {
                 // Scan timeout occurs after the timeout or when the scan is cancelled
@@ -203,7 +204,7 @@ namespace OpenMovement.AxLE.Comms
 
         private void AxLEDeviceAdvertised(object sender, IDevice device)
         {
-            if (device.Rssi > RssiFilter && !_lastSeen.ContainsKey(device.Id))
+            if (!_lastSeen.ContainsKey(device.Id))
             {
                 if (_devices.Any(d => d.Value.Id == device.Id))
                 {
@@ -219,7 +220,7 @@ namespace OpenMovement.AxLE.Comms
 
         private void ProcessDeviceDiscovered(IDevice device)
         {
-            if (device.Rssi > RssiFilter && _devices.Any(d => d.Value.Id == device.Id))
+            if (_devices.Any(d => d.Value.Id == device.Id))
                 return;
 
             if (string.IsNullOrEmpty(device.MacAddress))
