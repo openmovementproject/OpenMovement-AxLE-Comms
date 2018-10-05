@@ -39,9 +39,20 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
                 var endM = new Regex(end);
 
                 var endMatch = endM.Match(match.Value);
-                var hexString = match.Value.Substring(0, endMatch.Index);
+                var endIndex = endMatch.Index;
+                var hexString = match.Value.Substring(0, endIndex);
 
                 Data.Clear();
+
+                // Consume line ending
+                if (ds[endIndex] == '\r') { endIndex++; }
+                if (ds[endIndex] == '\n') { endIndex++; }
+
+                // Keep any residual characters for next packet
+                if (endIndex < ds.Length)
+                {
+                    Data.Add(ds.Substring(endIndex));
+                }
 
                 LastBlockBytes = AxLEHelper.StringToByteArray(hexString);
 
