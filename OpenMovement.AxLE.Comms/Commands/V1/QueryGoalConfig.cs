@@ -19,7 +19,7 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
         protected override bool LookForEnd()
         {
             var ds = string.Join("", Data.ToArray());
-            var regex = @"O:\d+\r?\nP:\d+\r?\nG:\d+";
+            var regex = @"O:\d+\r?\nP:\d+\r?\nG:-?\d+";
 
             var rm = new Regex(regex);
             var matches = rm.Matches(ds);
@@ -39,9 +39,9 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
             
             return new GoalConfig
             {
-                GoalPeriodOffset = UInt32.Parse(values[0]),
-                GoalPeriod = UInt32.Parse(values[1]),
-                GoalThreshold = UInt16.Parse(values[2])
+                GoalPeriodOffset = (uint)Int32.Parse(values[0]),
+                GoalPeriod = (uint)Int32.Parse(values[1]),
+                GoalThreshold = (uint)Int32.Parse(values[2])
             };
         }
     }

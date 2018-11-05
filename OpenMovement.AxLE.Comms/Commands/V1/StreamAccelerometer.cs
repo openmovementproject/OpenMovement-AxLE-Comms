@@ -16,12 +16,14 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
         public override async Task SendStartCommand()
         {
-            await Device.TxUart("I");
+            //await Device.TxUart("I"); //todo fix
+            await Device.TxUart("I 100");
         }
 
         protected override bool LookForBlock()
         {
-            var opm = new Regex(@"(OP: *01\r?\n)+");
+            // Old "OP: 01\r\n", New: "OP: 01, 50, 8\r\n"
+            var opm = new Regex(@"(OP: *01,? ?\d*,? ?\d*\r?\n)+");
             var rm = new Regex(@"[a-fA-F0-9]+\r?\n");
 
             var ds = string.Join("", Data.ToArray());
@@ -90,7 +92,7 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
             if (LastBlockBytes.Length < 8)
             {
-                Console.WriteLine($"WARNING: Packet too short: ${LastBlockBytes.Length}");
+                Console.WriteLine($"WARNING: Packet too short: {LastBlockBytes.Length}");
             }
             else
             {
