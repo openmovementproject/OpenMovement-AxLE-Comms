@@ -97,7 +97,7 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// <summary>
         /// Starts streaming accelerometer data. Subscribe to <see cref="AccelerometerStream"/> event to get data.
         /// </summary>
-        Task StartAccelerometerStream();
+        Task StartAccelerometerStream(int rate = 0, int range = 0);
         /// <summary>
         /// Stops streaming accelerometer data.
         /// </summary>

@@ -52,6 +52,7 @@ namespace OpenMovement.AxLE.Comms.Commands
                 NewBlock?.Invoke(this, ProcessBlock());
                 Processing = false;
             }
+
         }
 
         protected abstract bool LookForBlock();
@@ -63,6 +64,7 @@ namespace OpenMovement.AxLE.Comms.Commands
             Device.RxUart -= DataRecieved;
             await SendStopCommand();
             TCS.SetResult(0);
+
         }
     }
 }

@@ -173,11 +173,11 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        public async Task StartAccelerometerStream()
+        public async Task StartAccelerometerStream(int rate = 0, int range = 0)
         {
             if (CurrentStreamCommand == null)
             {
-                CurrentStreamCommand = new StreamAccelerometer();
+                CurrentStreamCommand = new StreamAccelerometer(rate, range);
                 CurrentStreamCommand.NewBlock += (sender, e) =>
                 {
                     AccelerometerStream?.Invoke(this, e);

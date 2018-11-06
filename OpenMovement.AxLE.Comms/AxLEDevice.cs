@@ -40,6 +40,7 @@ namespace OpenMovement.AxLE.Comms
 
             _rxTimer.Elapsed += (s, a) =>
             {
+
                 if (!RxProcessing)
                 {
                     ProcessRxTasks();
@@ -54,6 +55,7 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task OpenComms()
         {
+           
             var infoService = await _device.GetService(AxLEUuid.DeviceInformationServiceUuid);
             var hardwareCharac = await infoService.GetCharacteristic(AxLEUuid.HardwareCharacUuid);
             var firmwareCharac = await infoService.GetCharacteristic(AxLEUuid.FirmwareCharacUuid);
@@ -77,6 +79,7 @@ namespace OpenMovement.AxLE.Comms
 
         private void RxUartData(object sender, byte[] data)
         {
+
             var dataString = Encoding.ASCII.GetString(data);
 #if DEBUG_COMMS
             Console.WriteLine("DEBUG RX -- " + dataString);
@@ -89,6 +92,7 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task TxUart(string message)
         {
+
             if (!Ready) throw new DeviceNotReadyException();
 #if DEBUG_COMMS
             Console.WriteLine("DEBUG TX -- " + message);
@@ -98,6 +102,7 @@ namespace OpenMovement.AxLE.Comms
 
         private async void ProcessRxTasks()
         {
+
             if (!RxProcessing)
             {
                 RxProcessing = true;
@@ -117,11 +122,13 @@ namespace OpenMovement.AxLE.Comms
 
         private byte[] ConvertToUtf8(string text)
         {
+          
             return Encoding.ASCII.GetBytes(text);
         }
 
         public void Dispose()
         {
+           
             RxCharac.ValueUpdated -= RxUartData;
             RxCharac.UnregisterForUpdates();
 

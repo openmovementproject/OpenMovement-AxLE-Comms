@@ -10,14 +10,41 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 {
     public class StreamAccelerometer : AxLECommandStream<AccBlock>
     {
-        const int SampleCount = 25;
+        //const int SampleCount = 25;
+
+        protected int Rate { get; set; }
+        protected int Range { get; set; }
+
+        public StreamAccelerometer(int rate, int range)
+        {
+            this.Rate = rate;
+            this.Range = range;
+        }
+
+        public StreamAccelerometer(int rate) : this(rate, 0)
+        {
+        }
+
+        public StreamAccelerometer() : this(0, 0)
+        {
+        }
 
         private byte[] LastBlockBytes { get; set; }
 
         public override async Task SendStartCommand()
         {
-            //await Device.TxUart("I"); //todo fix
-            await Device.TxUart("I 100");
+            if (this.Rate <= 0)
+            {
+                await Device.TxUart("I");
+            }
+            else if (this.Range <= 0)
+            {
+                await Device.TxUart($"I {this.Rate}");
+            }
+            else
+            {
+                await Device.TxUart($"I {this.Rate} {this.Range}");
+            }
         }
 
         protected override bool LookForBlock()
@@ -73,7 +100,11 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
         protected override AccBlock ProcessBlock()
         {
+
             var block = new AccBlock();
+
+            block.Rate = (this.Rate <= 0) ? 50 : this.Rate;
+            block.Range = (this.Range <= 0) ? 8 : this.Range;
 
             if (LastBlockBytes.Length >= 4)
             {
@@ -105,12 +136,13 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
                 }
 
                 var maxSamples = (LastBlockBytes.Length - 8) / bytesPerSample;
-                if (maxSamples != SampleCount)
-                {
-                    Console.WriteLine($"WARNING: Packet sample count different to expected: {maxSamples}, {SampleCount}");
-                }
+                //if (maxSamples != SampleCount)
+                //{
+                //    Console.WriteLine($"WARNING: Packet sample count different to expected: {maxSamples}, {SampleCount}");
+                //}
 
-                if (maxSamples > SampleCount) maxSamples = SampleCount;
+                //if (maxSamples > SampleCount) maxSamples = SampleCount;
+
                 for (int i = 0; i < maxSamples; i++)
                 {
                     Array.Copy(LastBlockBytes, 8 + bytesPerSample * i, sampleBytes, 0, sampleBytes.Length);
@@ -125,8 +157,8 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
             }
 
             block.Samples = samples.ToArray();
-
             return block;
+            
         }
 
         public override async Task SendStopCommand()
