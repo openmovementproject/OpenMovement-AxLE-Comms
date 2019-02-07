@@ -72,7 +72,6 @@ namespace OpenMovement.AxLE.Comms
             };
 
             _ble.StateChanged += StateChanged;
-            _ble.DeviceDiscovered += AxLEDeviceDiscovered;
             _ble.DeviceAdvertised += AxLEDeviceAdvertised;
             _ble.DeviceDisconnected += AxLEDeviceDisconnected;
             _ble.DeviceConnectionLost += AxLEDeviceConnectionLost;
@@ -137,7 +136,6 @@ namespace OpenMovement.AxLE.Comms
         {
             await _ble.StopScan();
 
-            _ble.DeviceDiscovered -= AxLEDeviceDiscovered;
             _ble.DeviceAdvertised -= AxLEDeviceAdvertised;
             _ble.DeviceDisconnected -= AxLEDeviceDisconnected;
             _ble.DeviceConnectionLost -= AxLEDeviceDisconnected;
@@ -155,7 +153,6 @@ namespace OpenMovement.AxLE.Comms
             _ble.DeviceDisconnected -= BootloaderDeviceDisconnected;
             _ble.DeviceConnectionLost -= BootloaderDeviceConnectionLost;
 
-            _ble.DeviceDiscovered += AxLEDeviceDiscovered;
             _ble.DeviceAdvertised += AxLEDeviceAdvertised;
             _ble.DeviceDisconnected += AxLEDeviceDisconnected;
             _ble.DeviceConnectionLost += AxLEDeviceDisconnected;
@@ -164,11 +161,6 @@ namespace OpenMovement.AxLE.Comms
         private void StateChanged(object sender, BluetoothState s)
         {
             Console.WriteLine($"BLUETOOTH STATE: {s}");
-        }
-
-        private void AxLEDeviceDiscovered(object sender, IDevice device)
-        {
-            ProcessDeviceDiscovered(device);
         }
 
         private void AxLEDeviceDisconnected(object sender, IDevice device)
@@ -423,7 +415,6 @@ namespace OpenMovement.AxLE.Comms
             _nearbyTimer.Stop();
             _nearbyTimer.Dispose();
 
-            _ble.DeviceDiscovered -= AxLEDeviceDiscovered;
             _ble.DeviceAdvertised -= AxLEDeviceAdvertised;
             _ble.DeviceDisconnected -= AxLEDeviceDisconnected;
             _ble.DeviceConnectionLost -= AxLEDeviceDisconnected;

@@ -71,11 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
-      <Project>{781FB070-0380-4437-B880-0512F971C782}</Project>
+      <Project>{9A025A2C-A284-42A9-843D-97B57EFEDFC2}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
-      <Project>{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}</Project>
+      <Project>{C9C906E1-A208-4B1D-BC55-C9BD7D4615D7}</Project>
       <Name>OpenMovement.AxLE.Service</Name>
     </ProjectReference>
   </ItemGroup>
