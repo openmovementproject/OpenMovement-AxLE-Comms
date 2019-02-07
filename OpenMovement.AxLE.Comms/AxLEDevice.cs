@@ -3,6 +3,7 @@ using OpenMovement.AxLE.Comms.Exceptions;
 using OpenMovement.AxLE.Comms.Interfaces;
 using System;
 using System.Collections.Concurrent;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,8 +64,8 @@ namespace OpenMovement.AxLE.Comms
             var hardware = Encoding.UTF8.GetString(await hardwareCharac.Read());
             var firmware = Encoding.UTF8.GetString(await firmwareCharac.Read());
 
-            HardwareVersion = double.Parse(hardware);
-            FirmwareVersion = double.Parse(firmware);
+            HardwareVersion = double.Parse(hardware, CultureInfo.InvariantCulture);
+            FirmwareVersion = double.Parse(firmware, CultureInfo.InvariantCulture);
 
             var uartService = await _device.GetService(AxLEUuid.UartServiceUuid);
 

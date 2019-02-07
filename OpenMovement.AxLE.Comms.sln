@@ -6,8 +6,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenMovement.AxLE.Comms.Blu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android", "OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android\OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android.csproj", "{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS", "OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS\OpenMovement.AxLE.Comms.Bluetooth.Mobile.iOS.csproj", "{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMovement.AxLE.Service", "OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj", "{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenMovement.AxLE.Comms.Bluetooth.Windows", "OpenMovement.AxLE.Comms.Bluetooth.Windows\OpenMovement.AxLE.Comms.Bluetooth.Windows.shproj", "{AC27C4E0-58DC-4F23-861A-DD25FE8634AB}"
@@ -48,22 +46,6 @@ Global
 		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Release|x64.Build.0 = Release|Any CPU
 		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}.Release|x86.Build.0 = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|ARM.Build.0 = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|x64.Build.0 = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Debug|x86.Build.0 = Debug|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|ARM.ActiveCfg = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|ARM.Build.0 = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|x64.ActiveCfg = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|x64.Build.0 = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|x86.ActiveCfg = Release|Any CPU
-		{D9E8E2A1-6F1F-4FC3-8A2E-12096B349BC6}.Release|x86.Build.0 = Release|Any CPU
 		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}.Debug|ARM.ActiveCfg = Debug|Any CPU

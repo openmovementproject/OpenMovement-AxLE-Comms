@@ -69,9 +69,9 @@ namespace OpenMovement.AxLE.Comms.Bluetooth.Mobile
 
         public event EventHandler ScanTimeoutElapsed;
 
-        public BluetoothManager(IBluetoothLE ble)
+        public BluetoothManager()
         {
-            _ble = ble;
+            _ble = Plugin.BLE.CrossBluetoothLE.Current;
             _adapter = _ble.Adapter;
 
             _ble.StateChanged += (o, s) =>

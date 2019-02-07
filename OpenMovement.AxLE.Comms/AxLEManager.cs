@@ -196,6 +196,9 @@ namespace OpenMovement.AxLE.Comms
 
         private void AxLEDeviceAdvertised(object sender, IDevice device)
         {
+            if (device.Rssi < RssiFilter)
+                return;
+
             if (!_lastSeen.ContainsKey(device.Id))
             {
                 if (_devices.Any(d => d.Value.Id == device.Id))
@@ -390,7 +393,6 @@ namespace OpenMovement.AxLE.Comms
 					return new AxLEv1_6(axLE, serial);
                 case 1.7:
                     return new AxLEv1_7(axLE, serial);
-
                 case 1.9:
                     return new AxLEv1_7(axLE, serial); //todo added 
 
@@ -402,6 +404,7 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task DisconnectDevice(IAxLE device)
         {
+            await device.LEDFlash(); // Await LED flash to ensure command buffer is cleared before disconnect.
             var bleDevice = _devices[device.SerialNumber];
             await _ble.DisconnectDevice(bleDevice);
             device.Dispose();

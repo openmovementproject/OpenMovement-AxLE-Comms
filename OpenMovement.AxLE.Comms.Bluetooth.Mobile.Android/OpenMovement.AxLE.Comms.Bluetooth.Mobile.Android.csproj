@@ -12,7 +12,6 @@
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
