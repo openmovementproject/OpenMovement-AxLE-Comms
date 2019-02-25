@@ -81,9 +81,9 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// Connects to a known AxLE device. Must know DeviceId from previous connection with this device.
         /// </summary>
         /// <returns>AxLE device.</returns>
-        /// <param name="serial">Serial number of device.</param>
+        /// <param name="deviceId">Serial number of device.</param>
         /// <param name="timeout">If set to <c>true</c> connection operation will timeout. iOS will look for device forever, Android will produce GATT ERROR if not in range.</param>
-        Task<IAxLE> ConnectToKnownDevice(string serial, bool timeout = true);
+        Task<IAxLE> ConnectToKnownDevice(string deviceId, bool timeout = true);
         /// <summary>
         /// Disconnects from AxLE device and disposes of AxLE resources.
         /// </summary>

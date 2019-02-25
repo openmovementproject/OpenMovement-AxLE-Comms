@@ -322,13 +322,12 @@ namespace OpenMovement.AxLE.Comms
             return await CreateAxLE(bleDevice, serial);
         }
 
-        public async Task<IAxLE> ConnectToKnownDevice(string serial, bool timeout = true)
+        public async Task<IAxLE> ConnectToKnownDevice(string deviceId, bool timeout = true)
         {
             var delayTask = Task.Delay(1000);
 
             var ct = new CancellationTokenSource();
-            var device = _devices[serial];
-            var conntectTask = _ble.ConnectToKnownDevice(device.Id, ct.Token);
+            var conntectTask = _ble.ConnectToKnownDevice(deviceId, ct.Token);
 
             IDevice bleDevice;
             if (timeout)
@@ -362,7 +361,7 @@ namespace OpenMovement.AxLE.Comms
                 }
             }
 
-            return await CreateAxLE(bleDevice, serial);
+            return await CreateAxLE(bleDevice, bleDevice.MacAddress);
         }
 
         private async Task<IAxLE> CreateAxLE(IDevice device, string serial)
