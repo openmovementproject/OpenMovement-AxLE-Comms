@@ -95,6 +95,12 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// </summary>
         Task LEDFlash();
         /// <summary>
+        /// Ask user to confirm interaction. Waits for user to tap screen, times out if user does not respond.
+        /// </summary>
+        /// <param name="timeout">Time in milliseconds till interaction confirmation timesout.</param>
+        /// <returns>If user confirmed interaction.</returns>
+        Task<bool> ConfirmUserInteraction(int timeout);
+        /// <summary>
         /// Starts streaming accelerometer data. Subscribe to <see cref="AccelerometerStream"/> event to get data.
         /// </summary>
         Task StartAccelerometerStream(int rate = 0, int range = 0);

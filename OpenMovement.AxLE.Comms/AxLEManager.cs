@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -15,8 +16,8 @@ namespace OpenMovement.AxLE.Comms
 {
     public class AxLEManager : IAxLEManager
     {
-        private const string AxLEDeviceName = "axLE-Band";
-        private const string AxLEBootloaderDeviceName = "OM-DFU";
+        private const string AxLEDeviceNameRegex = @"(axLE-Band)|(I5-Om-)";
+        private const string AxLEBootloaderDeviceName = @"OM-DFU";
         private const int InterrogateInterval = 100;
         private const int NearbyInterval = 500;
 
@@ -104,7 +105,12 @@ namespace OpenMovement.AxLE.Comms
             _scanning = true;
             _interrogateTimer.Start();
             _nearbyTimer.Start();
-			await _ble.StartScan(AxLEScanServiceUuids, (d) => d.Name == AxLEDeviceName);
+			await _ble.StartScan(AxLEScanServiceUuids, (d) =>
+            {
+                var rm = new Regex(AxLEDeviceNameRegex);
+                var matches = rm.Matches(d.Name);
+                return matches.Count > 0;
+            });
 		}
 
         public async Task ScanBootloader()
@@ -393,7 +399,9 @@ namespace OpenMovement.AxLE.Comms
                 case 1.7:
                     return new AxLEv1_7(axLE, serial);
                 case 1.9:
-                    return new AxLEv1_7(axLE, serial); //todo added 
+                    return new AxLEv1_7(axLE, serial);
+                case 2.3:
+                    return new AxLEv2_3(axLE, serial);
 
                 default:
                     await _ble.DisconnectDevice(device);

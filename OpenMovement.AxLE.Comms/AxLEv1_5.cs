@@ -122,6 +122,11 @@ namespace OpenMovement.AxLE.Comms
             return await _processor.AddCommand(new Unlock(password));
         }
 
+        public virtual Task<bool> ConfirmUserInteraction(int timeout)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateDeviceState()
         {
             await ReadBattery();
