@@ -167,15 +167,28 @@ namespace OpenMovement.AxLE.Comms
 
         public async Task LEDFlash()
         {
-            for (var i = 0; i < 5; i++)
-            {
-                await _processor.AddCommand(new LED2Test());
-                Thread.Sleep(100);
-                await _processor.AddCommand(new AllHardwareOff());
-                await _processor.AddCommand(new LED3Test());
-                Thread.Sleep(100);
-                await _processor.AddCommand(new AllHardwareOff());
-            }
+            await _processor.AddCommand(new LED2Test());
+            await _processor.AddCommand(new LED3Test());
+        }
+
+        public virtual Task WriteBitmap(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task ClearDisplay()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task DisplayIcon(ushort offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task PaintDisplay(ushort offset, byte startCol, byte startRow, byte cols, byte rows, byte span)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task StartAccelerometerStream(int rate = 0, int range = 0)

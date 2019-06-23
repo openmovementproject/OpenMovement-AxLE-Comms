@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using OpenMovement.AxLE.Comms.Exceptions;
 using OpenMovement.AxLE.Comms.Values;
@@ -100,6 +101,32 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// <param name="timeout">Time in milliseconds till interaction confirmation timesout.</param>
         /// <returns>If user confirmed interaction.</returns>
         Task<bool> ConfirmUserInteraction(int timeout);
+        /// <summary>
+        /// Writes a bitmap from a local file to the device. This operation takes a 32x32 monochrome bitmap only.
+        /// </summary>
+        /// <exception cref="FileNotFoundException">Thrown when bitmap file could not be opened.</exception>
+        /// <param name="file">Path to 32x32 monochrome bitmap.</param>
+        Task WriteBitmap(string file);
+        /// <summary>
+        /// Clears the display of painted artifacts. This will in time return to the clock face.
+        /// </summary>
+        Task ClearDisplay();
+        /// <summary>
+        /// Displays icon on display screen from bitmap <paramref name="offset"/>.
+        /// </summary>
+        /// <param name="offset">Byte offset in bitmap to display from.</param>
+        Task DisplayIcon(UInt16 offset);
+        /// <summary>
+        /// Paints the display with data from loaded bitmap.
+        /// </summary>
+        /// <param name="offset">Byte offset in bitmap to start paint from.</param>
+        /// <param name="startCol">Start column in bitmap.</param>
+        /// <param name="startRow">Start row in bitmap.</param>
+        /// <param name="cols">Number of columns to paint in display.</param>
+        /// <param name="rows">Number of rows to paint in display.</param>
+        /// <param name="span">Span to paint in bitmap.</param>
+        /// <returns></returns>
+        Task PaintDisplay(UInt16 offset, byte startCol, byte startRow, byte cols, byte rows, byte span);
         /// <summary>
         /// Starts streaming accelerometer data. Subscribe to <see cref="AccelerometerStream"/> event to get data.
         /// </summary>

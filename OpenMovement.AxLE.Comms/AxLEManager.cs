@@ -97,7 +97,7 @@ namespace OpenMovement.AxLE.Comms
 
             _interrogateQueue = new ConcurrentQueue<IDevice>();
 
-            RssiFilter = 80;
+            RssiFilter = -80;
         }
 
         public async Task StartScan()
@@ -107,6 +107,9 @@ namespace OpenMovement.AxLE.Comms
             _nearbyTimer.Start();
 			await _ble.StartScan(AxLEScanServiceUuids, (d) =>
             {
+                if (string.IsNullOrWhiteSpace(d.Name))
+                    return false;
+
                 var rm = new Regex(AxLEDeviceNameRegex);
                 var matches = rm.Matches(d.Name);
                 return matches.Count > 0;
