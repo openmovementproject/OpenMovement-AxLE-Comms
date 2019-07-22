@@ -16,7 +16,7 @@ namespace OpenMovement.AxLE.Comms
 {
     public class AxLEManager : IAxLEManager
     {
-        private const string AxLEDeviceNameRegex = @"(axLE-Band)|(I5-Om-)";
+        private const string AxLEDeviceNameRegex = @"(axLE-Band)|(axLE-Band-[0-9A-F]{6})|(I5-Om-[0-9A-F]{6})";
         private const string AxLEBootloaderDeviceName = @"OM-DFU";
         private const int InterrogateInterval = 100;
         private const int NearbyInterval = 500;
@@ -205,16 +205,20 @@ namespace OpenMovement.AxLE.Comms
 
         private void AxLEDeviceAdvertised(object sender, IDevice device)
         {
-            if (device.Rssi < RssiFilter)
+Console.WriteLine($"ADVERTISED: {device.Name} <{device.MacAddress}> {device.Rssi} ({RssiFilter})");
+            if (RssiFilter != 0 && device.Rssi < RssiFilter)
                 return;
 
             if (!_lastSeen.ContainsKey(device.Id))
             {
+Console.WriteLine($"...New!");
                 if (_devices.Any(d => d.Value.Id == device.Id))
                 {
+Console.WriteLine($"...Found");
                     var devicePair = _devices.Single(d => d.Value.Id == device.Id);
                     DeviceFound?.Invoke(this, devicePair.Key);
                 } else {
+Console.WriteLine($"...Discovered");
                     ProcessDeviceDiscovered(device);
                 }
             }
@@ -405,7 +409,8 @@ namespace OpenMovement.AxLE.Comms
                     return new AxLEv1_7(axLE, serial);
                 case 2.3:
                     return new AxLEv2_3(axLE, serial);
-
+                case 2.4:
+                    return new AxLEv2_4(axLE, serial);
                 default:
                     await _ble.DisconnectDevice(device);
                     throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");

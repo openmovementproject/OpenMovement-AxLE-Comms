@@ -176,6 +176,11 @@ namespace OpenMovement.AxLE.Comms
             throw new NotImplementedException();
         }
 
+        public virtual Task WriteBitmap(byte[] data, int offset)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual Task ClearDisplay()
         {
             throw new NotImplementedException();
@@ -340,7 +345,12 @@ namespace OpenMovement.AxLE.Comms
             return await _processor.AddCommand(new QueryBlockDetails());
         }
 
-		public virtual async Task<string> DebugDump()
+        public virtual Task WriteRealTime(DateTime time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual async Task<string> DebugDump()
 		{
 			return await _processor.AddCommand(new DebugDump());
 		}

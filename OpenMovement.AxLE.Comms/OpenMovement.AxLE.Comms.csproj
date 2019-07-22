@@ -19,7 +19,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Bluetooth\" />
-    <Folder Include="Commands\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Values\" />
     <Folder Include="Commands\V2\" />

@@ -14,11 +14,12 @@ namespace OpenMovement.AxLE.Comms
             return bytes;
         }
 
-        public static string ByteArrayToString(byte[] ba)
+        public static string ByteArrayToString(byte[] ba, int offset = 0, int count = -1)
         {
-            StringBuilder hex = new StringBuilder(ba.Length * 2);
-            foreach (byte b in ba)
-                hex.AppendFormat("{0:x2}", b);
+            if (count < 0) count = ba.Length - offset;
+            StringBuilder hex = new StringBuilder(count * 2);
+            for (var i = 0; i < count; i++)
+                hex.AppendFormat("{0:x2}", ba[offset + i]);
             return hex.ToString();
         }
 

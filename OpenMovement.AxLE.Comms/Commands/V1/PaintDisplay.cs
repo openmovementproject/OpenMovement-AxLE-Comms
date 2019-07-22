@@ -24,7 +24,7 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
         public override async Task SendCommand()
         {
-            await Device.TxUart($"OD{AxLEHelper.ShortToHexWordsLE(_offset)}{_startCol:XX}{_startRow:XX}{_cols:XX}{_rows:XX}{_span:XX}");
+            await Device.TxUart($"OD{AxLEHelper.ShortToHexWordsLE(_offset)}{_startCol:X2}{_startRow:X2}{_cols:X2}{_rows:X2}{_span:X2}");
         }
     }
 }

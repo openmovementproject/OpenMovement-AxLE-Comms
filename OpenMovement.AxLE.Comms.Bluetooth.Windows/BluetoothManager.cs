@@ -133,6 +133,7 @@ namespace OpenMovement.AxLE.Comms.Bluetooth.Windows
                 if (!_devicesDiscovered.Contains(device.BluetoothAddress))
                 {
                     DeviceDiscovered?.Invoke(this, device);
+                    DeviceAdvertised?.Invoke(this, device);     // !!! TODO: Check this (setup program does not work otherwise, as nothing gets added to devices-discovered)
                 }
                 else
                 {

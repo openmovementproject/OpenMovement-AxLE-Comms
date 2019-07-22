@@ -102,11 +102,18 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// <returns>If user confirmed interaction.</returns>
         Task<bool> ConfirmUserInteraction(int timeout);
         /// <summary>
-        /// Writes a bitmap from a local file to the device. This operation takes a 32x32 monochrome bitmap only.
+        /// Writes a bitmap from a local file to the device at position 0. This operation takes a 32x32 monochrome bitmap only.
         /// </summary>
         /// <exception cref="FileNotFoundException">Thrown when bitmap file could not be opened.</exception>
         /// <param name="file">Path to 32x32 monochrome bitmap.</param>
         Task WriteBitmap(string file);
+        /// <summary>
+        /// Writes a bitmap from data to the device.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if the data length or offset are not multiples of 8.</exception>
+        /// <param name="data">Binary data (typically a 32x32 monochrome bitmap)</param>
+        /// <param name="offset">Offset at which to write the data (default is 0)</param>
+        Task WriteBitmap(byte[] data, int offset = 0);
         /// <summary>
         /// Clears the display of painted artifacts. This will in time return to the clock face.
         /// </summary>
@@ -175,6 +182,11 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// </summary>
         /// <returns>The block details.</returns>
         Task<BlockDetails> ReadBlockDetails();
+        /// <summary>
+        /// Writes the real-world date/time to the device.
+        /// <param name="time">Real-world date/time</param>
+        /// </summary>
+        Task WriteRealTime(DateTime time);
 
         /// <summary>
         /// Retrieve Debug output from device.

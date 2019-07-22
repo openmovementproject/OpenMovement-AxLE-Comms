@@ -14,6 +14,11 @@ namespace OpenMovement.AxLE.Comms
             await _processor.AddCommand(new WriteBitmap(file));
         }
 
+        public override async Task WriteBitmap(byte[] data, int offset = 0)
+        {
+            await _processor.AddCommand(new WriteBitmap(data, offset));
+        }
+
         public override async Task ClearDisplay()
         {
             await _processor.AddCommand(new ClearDisplay());
@@ -27,6 +32,11 @@ namespace OpenMovement.AxLE.Comms
         public override async Task PaintDisplay(ushort offset, byte startCol, byte startRow, byte cols, byte rows, byte span)
         {
             await _processor.AddCommand(new PaintDisplay(offset, startCol, startRow, cols, rows, span));
+        }
+
+        public override async Task WriteRealTime(DateTime time)
+        {
+            await _processor.AddCommand(new WriteRealTime(time));
         }
     }
 }
