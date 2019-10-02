@@ -38,6 +38,7 @@ namespace OpenMovement.AxLE.Comms.Bluetooth.Windows
         public async Task<IService> GetService(Guid service)
         {
             var result = await NativeDevice.GetGattServicesForUuidAsync(service);
+            if (result.Services.Count <= 0) throw new Comms.Exceptions.ConnectException(new Exception($"Service not found: {service}"));
             return new Service(result.Services.First());
         }
 
@@ -73,6 +74,7 @@ namespace OpenMovement.AxLE.Comms.Bluetooth.Windows
         public async Task<ICharacteristic> GetCharacteristic(Guid charac)
         {
             var result = await NativeService.GetCharacteristicsForUuidAsync(charac);
+            if (result.Characteristics.Count <= 0) throw new Comms.Exceptions.ConnectException(new Exception($"Characteristic not found: {charac}"));
             return new Characteristic(result.Characteristics.First());
         }
 

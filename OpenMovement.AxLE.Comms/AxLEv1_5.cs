@@ -186,7 +186,7 @@ namespace OpenMovement.AxLE.Comms
             throw new NotImplementedException();
         }
 
-        public virtual Task DisplayIcon(ushort offset)
+        public virtual Task DisplayIcon(int offset, int start = -1, int height = -1)
         {
             throw new NotImplementedException();
         }

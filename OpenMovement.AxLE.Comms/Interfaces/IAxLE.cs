@@ -121,8 +121,10 @@ namespace OpenMovement.AxLE.Comms.Interfaces
         /// <summary>
         /// Displays icon on display screen from bitmap <paramref name="offset"/>.
         /// </summary>
-        /// <param name="offset">Byte offset in bitmap to display from.</param>
-        Task DisplayIcon(UInt16 offset);
+        /// <param name="offset">Byte offset in memory to display from.</param>
+        /// <param name="start">Start row on screen to start display.</param>
+        /// <param name="height">Number of rows on screen.</param>
+        Task DisplayIcon(int offset, int start, int height);
         /// <summary>
         /// Paints the display with data from loaded bitmap.
         /// </summary>

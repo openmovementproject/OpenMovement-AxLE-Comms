@@ -24,11 +24,10 @@ namespace OpenMovement.AxLE.Comms
             await _processor.AddCommand(new ClearDisplay());
         }
 
-        public override async Task DisplayIcon(ushort offset)
+        public override async Task DisplayIcon(int offset, int start = -1, int height = -1)
         {
             await _processor.AddCommand(new DisplayIcon(offset));
         }
-
         public override async Task PaintDisplay(ushort offset, byte startCol, byte startRow, byte cols, byte rows, byte span)
         {
             await _processor.AddCommand(new PaintDisplay(offset, startCol, startRow, cols, rows, span));

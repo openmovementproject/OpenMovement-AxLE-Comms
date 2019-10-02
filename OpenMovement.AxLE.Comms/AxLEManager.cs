@@ -397,24 +397,15 @@ Console.WriteLine($"...Discovered");
                 throw new DeviceIncompatibleException($"Hardware Version {axLE.HardwareVersion} is unsupported by this library.");
             }
 
-            switch (axLE.FirmwareVersion)
-            {
-                case 1.5:
-                    return new AxLEv1_5(axLE, serial);
-				case 1.6:
-					return new AxLEv1_6(axLE, serial);
-                case 1.7:
-                    return new AxLEv1_7(axLE, serial);
-                case 1.9:
-                    return new AxLEv1_7(axLE, serial);
-                case 2.3:
-                    return new AxLEv2_3(axLE, serial);
-                case 2.4:
-                    return new AxLEv2_4(axLE, serial);
-                default:
-                    await _ble.DisconnectDevice(device);
-                    throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");
-            }
+            if (axLE.FirmwareVersion < 1.6) return new AxLEv1_5(axLE, serial);  // 1.5
+            if (axLE.FirmwareVersion < 1.7) return new AxLEv1_6(axLE, serial);  // 1.6
+            if (axLE.FirmwareVersion < 2.3) return new AxLEv1_7(axLE, serial);  // 1.7, 1.9
+            if (axLE.FirmwareVersion < 2.4) return new AxLEv2_3(axLE, serial);  // 2.3
+            if (axLE.FirmwareVersion < 2.6) return new AxLEv2_4(axLE, serial);  // 2.4, 2.5
+            if (axLE.FirmwareVersion < 10.0) return new AxLEv2_6(axLE, serial);  // 2.6  (assume backwards compatibility at least until v10)
+
+            await _ble.DisconnectDevice(device);
+            throw new DeviceIncompatibleException($"Firmware Version {axLE.FirmwareVersion} is unsupported by this library.");
         }
 
         public async Task DisconnectDevice(IAxLE device)

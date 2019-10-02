@@ -24,6 +24,15 @@ namespace OpenMovement.AxLE.Comms
         }
 
         /// <summary>
+        /// Returns two-digit hex number for a byte
+        /// </summary>
+        /// <returns>Two digit string</returns>
+        public static string ByteToHex(byte value)
+        {
+            return value.ToString("X2");
+        }
+
+        /// <summary>
         /// Returns four-digit (bytewise) little-endian hex number: first two nibbles are the low byte, second two are the high byte.
         /// </summary>
         /// <returns>Four digit string</returns>
