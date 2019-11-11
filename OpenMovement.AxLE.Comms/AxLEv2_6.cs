@@ -14,5 +14,13 @@ namespace OpenMovement.AxLE.Comms
             await _processor.AddCommand(new DisplayIcon(offset, start, height));
         }
 
+        public override async Task UpdateDeviceState()
+        {
+            await ReadBattery();
+            await ReadDeviceTime();
+            await ReadEraseData();
+            await ReadConnectionInterval();
+            await ReadEpochPeriod();
+        }
     }
 }

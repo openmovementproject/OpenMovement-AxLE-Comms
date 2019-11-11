@@ -13,7 +13,7 @@ namespace OpenMovement.AxLE.Comms.Commands.V1
 
         public override async Task SendCommand()
         {
-            await Device.TxUart("C");
+            await Device.TxUart($"C{_timeout}");
         }
 
         protected override bool LookForEnd()

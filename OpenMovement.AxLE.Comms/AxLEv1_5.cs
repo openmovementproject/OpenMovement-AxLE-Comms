@@ -22,7 +22,7 @@ namespace OpenMovement.AxLE.Comms
         public UInt32 DeviceTime { get; private set; }
         public EraseData EraseData { get; private set; }
 
-        private UInt32 _connectionInterval;
+        protected UInt32 _connectionInterval;
         public UInt32 ConnectionInterval
         {
             get => _connectionInterval;
@@ -33,7 +33,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private bool _cueing;
+        protected bool _cueing;
         public bool Cueing
         {
             get => _cueing;
@@ -47,7 +47,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private UInt32 _cueingPeriod;
+        protected UInt32 _cueingPeriod;
         public UInt32 CueingPeriod
         {
             get => _cueingPeriod;
@@ -58,7 +58,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private UInt32 _epochPeriod;
+        protected UInt32 _epochPeriod;
         public UInt32 EpochPeriod
         {
             get => _epochPeriod;
@@ -69,7 +69,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private UInt32 _goalPeriodOffset;
+        protected UInt32 _goalPeriodOffset;
         public UInt32 GoalPeriodOffset
         {
             get => _goalPeriodOffset;
@@ -80,7 +80,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private UInt32 _goalPeriod;
+        protected UInt32 _goalPeriod;
         public UInt32 GoalPeriod
         {
             get => _goalPeriod;
@@ -91,7 +91,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private UInt32 _goalThreshold;
+        protected UInt32 _goalThreshold;
         public UInt32 GoalThreshold
         {
             get => _goalThreshold;
@@ -102,7 +102,7 @@ namespace OpenMovement.AxLE.Comms
             }
         }
 
-        private StreamAccelerometer CurrentStreamCommand { get; set; }
+        protected StreamAccelerometer CurrentStreamCommand { get; set; }
 
         public event EventHandler<AccBlock> AccelerometerStream;
 
@@ -127,7 +127,7 @@ namespace OpenMovement.AxLE.Comms
             throw new NotImplementedException();
         }
 
-        public async Task UpdateDeviceState()
+        public virtual async Task UpdateDeviceState()
         {
             await ReadBattery();
             await ReadDeviceTime();
@@ -355,7 +355,7 @@ namespace OpenMovement.AxLE.Comms
 			return await _processor.AddCommand(new DebugDump());
 		}
 
-        private bool CheckCRC(byte[] data, ushort crc)
+        protected bool CheckCRC(byte[] data, ushort crc)
         {
             if (crc == 0xFFFF) // Most likely Active Block, partial data
                 return true;
@@ -369,7 +369,7 @@ namespace OpenMovement.AxLE.Comms
             return total == 0;
         }
 
-        private EpochBlock[] CalculateTimestamps(EpochBlock[] blocks, UInt32? lastRtc, DateTimeOffset? lastSync, UInt32 currentRtc, DateTimeOffset currentTime)
+        protected EpochBlock[] CalculateTimestamps(EpochBlock[] blocks, UInt32? lastRtc, DateTimeOffset? lastSync, UInt32 currentRtc, DateTimeOffset currentTime)
         {
             if (blocks.Length < 2)
                 return CalculateTimestampsForSet(blocks, currentRtc, currentTime);
@@ -425,7 +425,7 @@ namespace OpenMovement.AxLE.Comms
             return recoveredBlocks.ToArray();
         }
 
-        private EpochBlock[] CalculateTimestampsForSet(EpochBlock[] blocks, UInt32 offsetRtc, DateTimeOffset offsetTime)
+        protected EpochBlock[] CalculateTimestampsForSet(EpochBlock[] blocks, UInt32 offsetRtc, DateTimeOffset offsetTime)
         {
             foreach (var block in blocks)
             {
@@ -435,32 +435,32 @@ namespace OpenMovement.AxLE.Comms
             return blocks;
         }
 
-        private DateTimeOffset CalculateTimestamp(UInt32 timestamp, UInt32 currentRtc, DateTimeOffset currentTime)
+        protected DateTimeOffset CalculateTimestamp(UInt32 timestamp, UInt32 currentRtc, DateTimeOffset currentTime)
         {
 			return currentTime.AddSeconds((int) (timestamp - currentRtc));
         }
 
-        private async Task ReadBattery()
+        protected async Task ReadBattery()
         {
             Battery = await _processor.AddCommand(new ReadBattery());
         }
 
-        private async Task ReadDeviceTime()
+        protected async Task ReadDeviceTime()
         {
             DeviceTime = await _processor.AddCommand(new ReadDeviceTime());
         }
 
-        private async Task ReadEraseData()
+        protected async Task ReadEraseData()
         {
             EraseData = await _processor.AddCommand(new QueryEraseData());
         }
 
-        private async Task ReadConnectionInterval()
+        protected async Task ReadConnectionInterval()
         {
             _connectionInterval = await _processor.AddCommand(new ReadConnectionInterval());
         }
 
-        private async Task ReadCueingStatus()
+        protected async Task ReadCueingStatus()
         {
             var cueingConfig = await _processor.AddCommand(new QueryCueingConfig());
 
@@ -468,12 +468,12 @@ namespace OpenMovement.AxLE.Comms
             _cueingPeriod = cueingConfig.Period;
         }
 
-        private async Task ReadEpochPeriod()
+        protected async Task ReadEpochPeriod()
         {
             _epochPeriod = await _processor.AddCommand(new ReadEpochPeriod());
         }
 
-        private async Task ReadGoalConfig()
+        protected async Task ReadGoalConfig()
         {
             var goalConfig = await _processor.AddCommand(new QueryGoalConfig());
 
