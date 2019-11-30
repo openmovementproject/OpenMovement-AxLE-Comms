@@ -14,8 +14,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
-    <Authors>Gerard Wilkinson</Authors>
+    <Authors>Gerard Wilkinson, Dan Jackson</Authors>
     <Description>OpenMovement AxLE comms Android layer.</Description>
     <PackageLicenseUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Comms/blob/master/LICENSE</PackageLicenseUrl>
     <Owners>Open Lab, Newcastle University</Owners>
@@ -66,11 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
-      <Project>{66D823FB-3E81-4932-9990-3573453F3C70}</Project>
+      <Project>{781FB070-0380-4437-B880-0512F971C782}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj">
-      <Project>{4B69B807-EDFB-4085-861F-00ED1602E679}</Project>
+      <Project>{13B206DE-43A0-43C1-AC09-DCD9E67A77C4}</Project>
       <Name>OpenMovement.AxLE.Service</Name>
     </ProjectReference>
   </ItemGroup>
