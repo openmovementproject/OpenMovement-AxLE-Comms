@@ -51,10 +51,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="Plugin.BLE.Abstractions">
-      <HintPath>\Users\b0097226\Developer\openmovement-axle-comms\packages\Plugin.BLE.2.1.1\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Plugin.BLE.2.1.1\lib\MonoAndroid\Plugin.BLE.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.BLE">
-      <HintPath>\Users\b0097226\Developer\openmovement-axle-comms\packages\Plugin.BLE.2.1.1\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
+      <HintPath>..\packages\Plugin.BLE.2.1.1\lib\MonoAndroid\Plugin.BLE.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
