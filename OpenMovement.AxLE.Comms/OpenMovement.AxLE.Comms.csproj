@@ -11,6 +11,8 @@
     <PackageProjectUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Comms</PackageProjectUrl>
     <Summary>Use this package when you are rolling your own Bluetooth comms solution.</Summary>
     <Title>OpenMovement AxLE Comms Layer.</Title>
+    <PackageVersion>1.2</PackageVersion>
+    <ReleaseVersion>1.2</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,8 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenMovement.AxLE.Service\OpenMovement.AxLE.Service.csproj" />
+    <PackageReference Include="OpenMovement.AxLE.Service" Version="1.2.2" />
   </ItemGroup>
 </Project>
