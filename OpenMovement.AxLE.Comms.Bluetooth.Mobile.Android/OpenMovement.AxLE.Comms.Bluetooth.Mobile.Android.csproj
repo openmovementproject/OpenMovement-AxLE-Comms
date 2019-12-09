@@ -22,6 +22,7 @@
     <Title>OpenMovement AxLE Comms for Android</Title>
     <PackageVersion>1.2</PackageVersion>
     <ReleaseVersion>1.2</ReleaseVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/digitalinteraction/OpenMovement-AxLE-Service/master/logo.png</PackageIconUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -13,6 +13,7 @@
     <Title>OpenMovement AxLE Comms Layer.</Title>
     <PackageVersion>1.2</PackageVersion>
     <ReleaseVersion>1.2</ReleaseVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/digitalinteraction/OpenMovement-AxLE-Service/master/logo.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -26,6 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2" />
-    <PackageReference Include="OpenMovement.AxLE.Service" Version="1.2.4" />
+    <PackageReference Include="OpenMovement.AxLE.Service" Version="1.2.6" />
   </ItemGroup>
 </Project>
