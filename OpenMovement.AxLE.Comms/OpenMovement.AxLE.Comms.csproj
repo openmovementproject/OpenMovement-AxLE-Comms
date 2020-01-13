@@ -11,8 +11,8 @@
     <PackageProjectUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Comms</PackageProjectUrl>
     <Summary>Use this package when you are rolling your own Bluetooth comms solution.</Summary>
     <Title>OpenMovement AxLE Comms Layer.</Title>
-    <PackageVersion>1.2</PackageVersion>
-    <ReleaseVersion>1.2</ReleaseVersion>
+    <PackageVersion>1.7</PackageVersion>
+    <ReleaseVersion>1.7</ReleaseVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/digitalinteraction/OpenMovement-AxLE-Service/master/logo.png</PackageIconUrl>
   </PropertyGroup>
 

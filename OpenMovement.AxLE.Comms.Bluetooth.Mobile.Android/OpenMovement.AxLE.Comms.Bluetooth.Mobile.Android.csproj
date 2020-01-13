@@ -21,8 +21,8 @@
     <Owners>Open Lab, Newcastle University</Owners>
     <PackageProjectUrl>https://github.com/digitalinteraction/OpenMovement-AxLE-Comms</PackageProjectUrl>
     <Title>OpenMovement AxLE Comms for Android</Title>
-    <PackageVersion>1.2</PackageVersion>
-    <ReleaseVersion>1.2</ReleaseVersion>
+    <PackageVersion>1.7</PackageVersion>
+    <ReleaseVersion>1.7</ReleaseVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/digitalinteraction/OpenMovement-AxLE-Service/master/logo.png</PackageIconUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
