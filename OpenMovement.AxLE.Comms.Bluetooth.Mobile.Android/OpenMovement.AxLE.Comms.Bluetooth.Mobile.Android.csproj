@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems" Label="Shared" Condition="Exists('..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems')" />
   <Import Project="..\packages\NuGet.Build.Packaging.0.2.2\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.2\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -64,15 +65,14 @@
     <Compile Include="BluetoothManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\OpenMovement.AxLE.Comms\OpenMovement.AxLE.Comms.csproj">
       <Project>{781FB070-0380-4437-B880-0512F971C782}</Project>
       <Name>OpenMovement.AxLE.Comms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems" Label="Shared" Condition="Exists('..\OpenMovement.AxLE.Comms.Bluetooth.Mobile\OpenMovement.AxLE.Comms.Bluetooth.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NuGet.Build.Packaging.0.2.2\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.2\build\NuGet.Build.Packaging.targets')" />
 </Project>
