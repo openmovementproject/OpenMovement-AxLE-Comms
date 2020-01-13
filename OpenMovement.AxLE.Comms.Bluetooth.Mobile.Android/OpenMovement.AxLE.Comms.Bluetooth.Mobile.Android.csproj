@@ -8,8 +8,8 @@
     <ProjectGuid>{4D3A4F89-2848-44EA-B2AA-5EBC48C80DFC}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>OpenMovement.AxLE.Comms.Bluetooth.Mobile</RootNamespace>
-    <AssemblyName>OpenMovement.AxLE.Comms.Bluetooth.Mobile</AssemblyName>
+    <RootNamespace>OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android</RootNamespace>
+    <AssemblyName>OpenMovement.AxLE.Comms.Bluetooth.Mobile.Android</AssemblyName>
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
